@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>URL de Imagen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>URL de la imagen</h2>
+  <p id="imgUrl"></p>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const imgUrl = getQueryParam('img');
+    document.getElementById('imgUrl').textContent = imgUrl;
+  </script>
+</body>
+</html>
+
