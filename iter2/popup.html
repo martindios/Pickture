@@ -13,16 +13,7 @@
 <body>
   <h2>URL de la imagen</h2>
   <p id="imgUrl"></p>
-
-  <script>
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
-
-    const imgUrl = getQueryParam('img');
-    document.getElementById('imgUrl').textContent = imgUrl;
-  </script>
+  <script src="popup.js"></script>
 </body>
 </html>
 
