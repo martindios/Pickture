@@ -16,9 +16,28 @@
     p {
       word-wrap: break-word;
     }
+    #closeButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+    }
+    #closeButton:hover {
+      background: #cc0000;
+    }
   </style>
 </head>
 <body>
+  <button id="closeButton" title="Cerrar panel">×</button>
   <h1>URL de la Imagen</h1>
   <p id="imgUrl">Cargando...</p>
   <script src="panel.js"></script>

@@ -35,4 +35,12 @@ function mostrarPanel(imgUrl) {
 
   // Añadir el iframe al cuerpo de la página
   document.body.appendChild(iframe);
+
+  // Escuchar mensajes desde el iframe
+  window.addEventListener('message', (event) => {
+    if (event.data.action === 'closePanel') {
+      // Eliminar el iframe
+      iframe.remove();
+    }
+  });
 }
