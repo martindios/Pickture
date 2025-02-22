@@ -152,8 +152,42 @@ body {
     color: #000;
     font-weight: bold;
     font-size: large;
+}
+
+.header ul li a:hover {
+    color: #666;
+}
+
+.product-link-button {
+    height: 100%;
+    color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.product-link-button:hover {
+    background-color: #45a049;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3; /* Color de fondo del spinner */
+    border-top: 8px solid #3498db; /* Color de la parte giratoria */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto; /* Centrado en el contenedor */
   }
   
-  .header ul li a:hover {
-    color: #666;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }

@@ -1,119 +1,19 @@
-// Función para crear un elemento de producto
-function createProductElement(product) {
-  const productDiv = document.createElement('div');
-  productDiv.className = 'product';
+import { addToFavorites, removeFromFavorites, favorites } from './favorites.js';
+import { shareOnSocialMedia } from './social.js';
 
-  const productImage = document.createElement('img');
-  productImage.className = 'product-image';
-  obtenerImagenDeZara(product.link).then(url => {
-    productImage.src = url || "logo_no_text_color.png";
-  });
-  productImage.alt = product.name;
-  productDiv.appendChild(productImage);
+let productsList = [];
 
-  const productInfo = document.createElement('div');
-  productInfo.className = 'product-info';
-
-  const productName = document.createElement('div');
-  productName.className = 'product-name';
-  productName.textContent = product.name || "Nombre no disponible";
-  productInfo.appendChild(productName);
-
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.className = 'buttons-container';
-
-  const starIcon = document.createElement('span');
-  starIcon.className = 'star-icon';
-  starIcon.innerHTML = '⭐';
-  starIcon.style.cursor = 'pointer';
-  starIcon.addEventListener('click', () => addToFavorites(product));
-  buttonsContainer.appendChild(starIcon);
-
-  const buyIcon = document.createElement('span');
-  buyIcon.className = 'buy-icon';
-  buyIcon.innerHTML = '🛒';
-  buyIcon.style.cursor = 'pointer';
-  buyIcon.title = "Comprar producto";
-  buyIcon.addEventListener('click', () => {
-    window.open(product.link, '_blank');
-  });
-  buttonsContainer.appendChild(buyIcon);
-
-  productInfo.appendChild(buttonsContainer);
-
-  const socialSharing = document.createElement('div');
-  socialSharing.className = 'social-sharing';
-
-  const facebookIcon = document.createElement('a');
-  facebookIcon.className = 'social-icon facebook';
-  facebookIcon.innerHTML = '<i class="fab fa-facebook-f"></i>';
-  facebookIcon.title = "Compartir en Facebook";
-  facebookIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "facebook");
-  });
-  socialSharing.appendChild(facebookIcon);
-
-  const twitterIcon = document.createElement('a');
-  twitterIcon.className = 'social-icon twitter';
-  twitterIcon.innerHTML = '<i class="fab fa-twitter"></i>';
-  twitterIcon.title = "Compartir en Twitter";
-  twitterIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "twitter");
-  });
-  socialSharing.appendChild(twitterIcon);
-
-  const instagramIcon = document.createElement('a');
-  instagramIcon.className = 'social-icon instagram';
-  instagramIcon.innerHTML = '<i class="fab fa-instagram"></i>';
-  instagramIcon.title = "Compartir en Instagram";
-  instagramIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "instagram");
-  });
-  socialSharing.appendChild(instagramIcon);
-
-  productInfo.appendChild(socialSharing);
-  productDiv.appendChild(productInfo);
-
-  return productDiv;
-}
-
-// Función para mostrar la pantalla de Favoritos
-function showFavoritesScreen() {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = "";
-  if (favorites.length > 0) {
-    favorites.forEach(product => {
-      const productElement = createProductElement(product);
-      productList.appendChild(productElement);
-    });
-  } else {
-    productList.innerHTML = "<p>No se encontraron productos.</p>";
-  }
-}
-
-// Función para mostrar la pantalla de Web
-function showWebScreen() {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Web.</p>";
-}
-
-// Función para mostrar la pantalla de Inditex
-function showInditexScreen() {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
-}
-
-// Obtención de parámetros de la URL
-function getQueryParam(param) {
+export function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-// Petición a la API usando la URL de la imagen
-function callApiWithImage(imageUrl) {
+export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
+  const productList = document.getElementById('productList');
+  
+  // Mostrar el spinner mientras se espera la respuesta de la API
+  productList.innerHTML = "<div class='spinner'></div>";
+
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
   const tokenUrl = "https://auth.inditex.com:443/openam/oauth2/itxid/itxidmp/access_token";
@@ -159,11 +59,21 @@ function callApiWithImage(imageUrl) {
     const uniqueProducts = products.filter((product, index, self) =>
       index === self.findIndex(p => p.id === product.id && p.name === product.name)
     );
-    const productList = document.getElementById('productList');
+
+    // Si no se encontraron productos y aún no se alcanzó el máximo de intentos, se reintenta la petición
+    if (uniqueProducts.length === 0 && attempt < maxAttempts) {
+      console.log(`Reintentando petición... intento ${attempt + 1}`);
+      return callApiWithImage(imageUrl, attempt + 1, maxAttempts);
+    }
+
+    // Limpiar el spinner antes de mostrar los resultados
     productList.innerHTML = "";
+
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
-        const productElement = createProductElement(product);
+        const isFavorite = favorites.some(fav => fav.id === product.id);
+        productsList.push(product);
+        const productElement = createProductElement(product, isFavorite);
         productList.appendChild(productElement);
       });
     } else {
@@ -172,31 +82,147 @@ function callApiWithImage(imageUrl) {
   })
   .catch(error => {
     console.error("Error:", error);
-    const productList = document.getElementById('productList');
     productList.innerHTML = `<p>Error: ${error.message}</p>`;
   });
 }
 
-// Función para obtener la imagen del producto (No funciona)
-async function obtenerImagenDeZara(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('No se pudo obtener la página');
-    }
-    const html = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const imgElement = doc.querySelector('picture.media-image img');
-    if (imgElement) {
-      return imgElement.src;
-    } else {
-      throw new Error('Imagen no encontrada');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
+// Función para crear un elemento de producto
+function createProductElement(product, isFavorite = false) {
+  const productDiv = document.createElement('div');
+  productDiv.className = 'product';
+
+  const productImage = document.createElement('img');
+  productImage.className = 'product-image';
+  obtenerImagenDeZara(product.link).then(url => {
+    productImage.src = url || "logo_zara.png";
+  });
+  productImage.alt = product.name;
+  productDiv.appendChild(productImage);
+
+  const productInfo = document.createElement('div');
+  productInfo.className = 'product-info';
+
+  const productName = document.createElement('div');
+  productName.className = 'product-name';
+  productName.textContent = product.name || "Nombre no disponible";
+  productInfo.appendChild(productName);
+
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.className = 'buttons-container';
+
+  // Dentro de createProductElement, en la sección de precio:
+  const productPrice = document.createElement('div');
+  productPrice.className = 'product-price';
+
+  if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
+    // Mostrar precio original tachado en rojo y el precio actual
+    productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
+  } else if (product.price && product.price.value && product.price.value.current) {
+    productPrice.textContent = `€${product.price.value.current}`;
+  } else {
+    productPrice.textContent = "Precio no disponible";
   }
+
+  productInfo.appendChild(productPrice);
+
+  const buyIcon = document.createElement('span');
+  buyIcon.className = 'buy-icon';
+  buyIcon.innerHTML = '🛒';
+  buyIcon.style.cursor = 'pointer';
+  buyIcon.title = "Comprar producto";
+  buyIcon.addEventListener('click', () => {
+    window.open(product.link, '_blank');
+  });
+  buttonsContainer.appendChild(buyIcon);
+
+  productInfo.appendChild(buttonsContainer);
+
+  starIcon.addEventListener('click', () => {
+    if (isFavorite) {
+      removeFromFavorites(product);
+      starIcon.innerHTML = '⭐';
+    } else {
+      addToFavorites(product);
+      starIcon.innerHTML = '🌟';
+    }
+  });
+  productInfo.appendChild(starIcon);
+
+  const socialSharing = document.createElement('div');
+  socialSharing.className = 'social-sharing';
+
+  const facebookIcon = document.createElement('a');
+  facebookIcon.className = 'social-icon facebook';
+  facebookIcon.innerHTML = '<i class="fab fa-facebook-f"></i>';
+  facebookIcon.title = "Compartir en Facebook";
+  facebookIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "facebook");
+  });
+  socialSharing.appendChild(facebookIcon);
+
+  const twitterIcon = document.createElement('a');
+  twitterIcon.className = 'social-icon twitter';
+  twitterIcon.innerHTML = '<i class="fab fa-twitter"></i>';
+  twitterIcon.title = "Compartir en Twitter";
+  twitterIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "twitter");
+  });
+  socialSharing.appendChild(twitterIcon);
+
+  const instagramIcon = document.createElement('a');
+  instagramIcon.className = 'social-icon instagram';
+  instagramIcon.innerHTML = '<i class="fab fa-instagram"></i>';
+  instagramIcon.title = "Compartir en Instagram";
+  instagramIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "instagram");
+  });
+  socialSharing.appendChild(instagramIcon);
+
+  productInfo.appendChild(socialSharing);
+  productDiv.appendChild(productInfo);
+
+  return productDiv;
+}
+
+// Función para mostrar la pantalla de Favoritos
+function showFavoritesScreen() {
+  const productList = document.getElementById('productList');
+
+  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+  
+  if (favorites.length > 0) {
+    favorites.forEach(product => {
+      const productElement = createProductElement(product, true);
+      productList.appendChild(productElement);
+    });
+  } else {
+    productList.innerHTML = "<h3>No se encontraron productos.</h3>";
+  }
+}
+
+
+// Función para mostrar la pantalla de Web
+function showWebScreen() {
+  const productList = document.getElementById('productList');
+  productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
+
+  if (productsList.length > 0) {
+    productsList.forEach(product => {
+      const productElement = createProductElement(product, favorites.some(fav => fav.id === product.id));
+      productList.appendChild(productElement);
+    });
+  } else {
+    productList.innerHTML = "<p>No se encontraron productitos.</p>";
+  }
+}
+
+// Función para mostrar la pantalla de Inditex
+function showInditexScreen() {
+  const productList = document.getElementById('productList');
+  productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
 
 document.addEventListener('DOMContentLoaded', () => {
