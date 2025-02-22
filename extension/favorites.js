@@ -1,5 +1,5 @@
 // favorites.js
-import { openDatabase, agregarDatos, eliminarDatos, obtenerTodosLosDatos } from './indexdb.js';
+import { agregarDatos, eliminarDatos, obtenerTodosLosDatos } from './indexdb.js';
 
 export let favorites = [];
 
