@@ -8,6 +8,7 @@ let currentScreen = 'web';
 
 // Función para crear un elemento de producto
 export function createProductElement(product, isFavorite = false) {
+
   const productDiv = document.createElement('div');
   productDiv.className = 'product';
 
@@ -86,35 +87,45 @@ export function createProductElement(product, isFavorite = false) {
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
 
-  const facebookIcon = document.createElement('a');
-  facebookIcon.className = 'social-icon facebook';
-  facebookIcon.innerHTML = '<img id="logoFacebook" src="./logos/facebook.png" alt="Logo de facebook">';
-  facebookIcon.title = "Compartir en Facebook";
-  facebookIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "facebook");
-  });
-  socialSharing.appendChild(facebookIcon);
+// Dentro de createProductElement, antes de crear los iconos:
+const isDarkMode = document.body.classList.contains('dark-mode');
+const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
+const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
+const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsapp.png';
 
-  const twitterIcon = document.createElement('a');
-  twitterIcon.className = 'social-icon twitter';
-  twitterIcon.innerHTML = '<img id="logoTwitter" src="./logos/twitter.png" alt="Logo de twitter">';
-  twitterIcon.title = "Compartir en Twitter";
-  twitterIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "twitter");
-  });
-  socialSharing.appendChild(twitterIcon);
+// Icono de Facebook
+const facebookIcon = document.createElement('a');
+facebookIcon.className = 'social-icon facebook';
+facebookIcon.innerHTML = `<img id="logoFacebook" src="${facebookSrc}" alt="Logo de Facebook">`;
+facebookIcon.title = "Compartir en Facebook";
+facebookIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "facebook");
+});
+socialSharing.appendChild(facebookIcon);
 
-  const instagramIcon = document.createElement('a');
-  instagramIcon.className = 'social-icon instagram';
-  instagramIcon.innerHTML = '<img id="logoWhas" src="./logos/whatsapp.png" alt="Logo de whatsapp">';
-  instagramIcon.title = "Compartir en Instagram";
-  instagramIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "instagram");
-  });
-  socialSharing.appendChild(instagramIcon);
+// Icono de Twitter
+const twitterIcon = document.createElement('a');
+twitterIcon.className = 'social-icon twitter';
+twitterIcon.innerHTML = `<img id="logoTwitter" src="${twitterSrc}" alt="Logo de Twitter">`;
+twitterIcon.title = "Compartir en Twitter";
+twitterIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "twitter");
+});
+socialSharing.appendChild(twitterIcon);
+
+// Icono de WhatsApp
+const whatsappIcon = document.createElement('a');
+whatsappIcon.className = 'social-icon whatsapp';
+whatsappIcon.innerHTML = `<img id="logoWhas" src="${whatsappSrc}" alt="Logo de WhatsApp">`;
+whatsappIcon.title = "Compartir en WhatsApp";
+whatsappIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "whatsapp");
+});
+socialSharing.appendChild(whatsappIcon);
+
 
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
@@ -282,6 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const darkModeToggle = document.getElementById('darkModeToggle');
   const darkModeImg = document.getElementById('darkModeImg');
+  const logo = document.getElementById('logo');
+
   
   darkModeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
@@ -298,6 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       darkModeImg.src = './logos/darkMode.png';
     }
+
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeImg.src = './logos/lightMode.png';
+      logo.src = './logos/logo_no_text_white.png';
+    } else {
+      darkModeImg.src = './logos/darkMode.png';
+      logo.src = './logos/logo_no_text_black.png';
+    }
+
     // Re-renderiza la lista de productos para actualizar los iconos de favoritos
     rePrint();
   });
