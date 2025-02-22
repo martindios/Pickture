@@ -3,7 +3,6 @@ import { addToFavorites, removeFromFavorites, favoritesList, updateFavorites } f
 import { shareOnSocialMedia } from './social.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
-
 // Variables
 export let productsList = [];
 let currentScreen = 'web';
