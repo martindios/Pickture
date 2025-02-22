@@ -9,6 +9,12 @@ export function getQueryParam(param) {
 }
 
 function callApiWithImage(imageUrl) {
+
+  const productList = document.getElementById('productList');
+  
+  // Mostrar el spinner mientras se espera la respuesta de la API
+  productList.innerHTML = "<div class='spinner'></div>"
+
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
   const tokenUrl = "https://auth.inditex.com:443/openam/oauth2/itxid/itxidmp/access_token";
