@@ -37,7 +37,7 @@ function mostrarPanel(imgUrl) {
     iframe.style.position = 'fixed';
     iframe.style.top = '0';
     iframe.style.right = '0';
-    iframe.style.width = '20%';
+    iframe.style.width = '25%';
     iframe.style.height = '100vh';
     iframe.style.border = 'none';
     iframe.style.zIndex = '100000';
