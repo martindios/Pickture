@@ -71,7 +71,7 @@ function callApiWithImage(imageUrl) {
             if(url){
               productImage.src = url;
             } else {
-              productImage.src = "icon.png"; // Imagen de ejemplo si no hay URL
+              productImage.src = "logo_no_text.png"; // Imagen de ejemplo si no hay URL
             }
           });
           // productImage.src = product.imageUrl || "https://via.placeholder.com/80"; // Imagen de ejemplo si no hay URL
@@ -123,6 +123,7 @@ async function obtenerImagenDeZara(url) {
       throw new Error('No se pudo obtener la página');
     }
     const html = await response.text();
+    console.log('HTML obtenido:', html); // Imprimir el HTML para depuración
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
     const imgElement = doc.querySelector('picture.media-image img');
