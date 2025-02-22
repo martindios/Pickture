@@ -188,6 +188,7 @@ body {
   }
   
   .loader {
+    margin-top: 70%;
     width: 48px;
     height: 48px;
     border: 5px solid #5e5e5e;
