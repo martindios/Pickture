@@ -1,3 +1,4 @@
+
 export function shareOnSocialMedia(url, platform, message = "No te pierdas ninguna novedad gracias a #InditexTech. Estás a un click del outfit de tus sueños gracias a Pickture") {
   let shareUrl = "";
 
@@ -17,3 +18,4 @@ export function shareOnSocialMedia(url, platform, message = "No te pierdas ningu
 
   window.open(shareUrl, "_blank", "width=600,height=400");
 }
+
