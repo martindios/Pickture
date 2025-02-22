@@ -121,7 +121,6 @@ body {
   }
   
   .social-icon {
-    color: #000;
     width: 30px;
     height: 30px;
     background-color: transparent;
@@ -131,6 +130,11 @@ body {
     transition: opacity 0.3s ease;
     border: 1px solid #000;
   }
+
+  body.dark-mode .social-icon {
+    border: 1px solid #fff;
+  }
+  
   
   .social-icon:hover {
     opacity: 0.6;
@@ -257,6 +261,11 @@ body {
   height: 2px;  /* Altura del subrayado */
   background-color: rgba(0, 0, 0, 0.3); /* Color del subrayado */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra difusa */
+}
+
+body.dark-mode .active-link::after {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);
 }
 
 a {
@@ -424,4 +433,14 @@ body.dark-mode .form-inputs button:hover {
 body.dark-mode .original-price {
   color: gray;
   text-decoration: line-through;
+}
+
+
+body.dark-mode #closeButton {
+  background: #fff;
+  color: #000;
+}
+
+body.dark-mode #closeButton:hover {
+  background: #ccc; /* Ajusta este color si deseas otro efecto al pasar el mouse */
 }
