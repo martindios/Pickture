@@ -111,7 +111,7 @@
       background-color: #eee;
       margin-right: 10px;
       border-radius: 4px;
-      object-fit: cover; /* Ajusta la imagen al contenedor */
+      object-fit: cover;
     }
     .product-info {
       flex: 1;
@@ -124,6 +124,30 @@
       color: #4CAF50;
       font-size: 14px;
     }
+    .star-icon {
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .header ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-around;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .header ul li {
+      padding: 10px;
+    }
+    .header ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    .header ul li a:hover {
+      color: #4CAF50;
+    }
   </style>
 </head>
 <body>
@@ -133,9 +157,12 @@
   </header>
   <div class="divider"></div>
   <div class="content">
-    <div class="url-container">
-      <label for="urlBox">URL:</label>
-      <div id="urlBox" class="url-box"></div>
+    <div class="header">
+      <ul>
+        <li><a href="#" id="webLink">Web</a></li>
+        <li><a href="#" id="favoritesLink">Favoritos</a></li>
+        <li><a href="#" id="inditexLink">Inditex</a></li>
+      </ul>
     </div>
     <!-- Contenedor para la lista de productos -->
     <div class="product-list-container">
