@@ -12,7 +12,7 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
   const productList = document.getElementById('productList');
   
   // Mostrar el spinner mientras se espera la respuesta de la API
-  productList.innerHTML = "<div class='spinner'></div>";
+  productList.innerHTML = "<div class='loader'></div>";
 
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
