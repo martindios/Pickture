@@ -1,13 +1,13 @@
 // Crear el menú contextual
 chrome.contextMenus.create({
-  id: "buscarPrendasSimilares",
+  id: "Pickture",
   title: "Buscar prendas similares",
   contexts: ["image"]
 });
 
 // Escuchar el clic en el menú contextual
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "buscarPrendasSimilares") {
+  if (info.menuItemId === "Pickture") {
     const imgUrl = info.srcUrl;
 
     // Inyectar un script en la pestaña activa para mostrar el panel

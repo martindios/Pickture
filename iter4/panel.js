@@ -160,7 +160,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Funcionalidad del botón de comprar
   const buyButton = document.getElementById('buyButton');
-  buyButton.addEventListener('click', () => {
-    alert('¡Gracias por tu compra!');
-  });
+  if (buyButton) {
+    buyButton.addEventListener('click', () => {
+      alert('¡Gracias por tu compra!');
+    });
+  }
+
+  // Asignar eventos a los enlaces del header
+  const webLink = document.getElementById('webLink');
+  const favoritesLink = document.getElementById('favoritesLink');
+  const inditexLink = document.getElementById('inditexLink');
+
+  if (webLink) {
+    webLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showWebScreen();
+    });
+  }
+
+  if (favoritesLink) {
+    favoritesLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showFavoritesScreen();
+    });
+  }
+
+  if (inditexLink) {
+    inditexLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showInditexScreen();
+    });
+  }
 });
+
