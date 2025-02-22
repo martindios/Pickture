@@ -5,7 +5,6 @@ let favorites = [];
 function addToFavorites(product) {
   favorites.push(product);
   console.log("Producto añadido a favoritos:", product);
-  //alert(`"${product.name}" añadido a favoritos.`);
   
   // Cambiar el icono del producto añadido a favoritos
   const productElements = document.querySelectorAll('.product');
@@ -19,6 +18,12 @@ function addToFavorites(product) {
     }
   });
 }
+
+function removeFromFavorites(product) {
+  favorites = favorites.filter(fav => fav.id !== product.id);
+  console.log("Producto eliminado de favoritos:", product);
+}
+
 
 // Función para compartir en redes sociales
 function shareOnSocialMedia(url, platform) {
@@ -42,7 +47,7 @@ function shareOnSocialMedia(url, platform) {
 }
 
 // Función para crear un elemento de producto
-function createProductElement(product) {
+function createProductElement(product, isFavorite = false) {
   const productDiv = document.createElement('div');
   productDiv.className = 'product';
 
@@ -69,9 +74,17 @@ function createProductElement(product) {
 
   const starIcon = document.createElement('span');
   starIcon.className = 'star-icon';
-  starIcon.innerHTML = '⭐';
+  starIcon.innerHTML = isFavorite ? '🌟' : '⭐';
   starIcon.style.cursor = 'pointer';
-  starIcon.addEventListener('click', () => addToFavorites(product));
+  starIcon.addEventListener('click', () => {
+    if (isFavorite) {
+      removeFromFavorites(product);
+      starIcon.innerHTML = '⭐';
+    } else {
+      addToFavorites(product);
+      starIcon.innerHTML = '🌟';
+    }
+  });
   productInfo.appendChild(starIcon);
 
   const socialSharing = document.createElement('div');
@@ -124,17 +137,18 @@ function createProductElement(product) {
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
+  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
   if (favorites.length > 0) {
     favorites.forEach(product => {
-      const productElement = createProductElement(product);
+      const productElement = createProductElement(product, true);
       productList.appendChild(productElement);
     });
   } else {
     productList.innerHTML = "<p>No se encontraron productos.</p>";
   }
 }
+
 
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
@@ -197,10 +211,7 @@ function callApiWithImage(imageUrl) {
     return response.json();
   })
   .then(json => {
-    // Obtenemos el array de productos
     const products = Array.isArray(json) ? json : json.products;
-
-    // Filtramos para eliminar duplicados según 'id' y 'name'
     const uniqueProducts = products.filter((product, index, self) =>
     index === self.findIndex(p => p.id === product.id && p.name === product.name)
     );
@@ -208,16 +219,17 @@ function callApiWithImage(imageUrl) {
     const productList = document.getElementById('productList');
     productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
-    // Comprobar duplicados
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
-        const productElement = createProductElement(product);
+        const isFavorite = favorites.some(fav => fav.id === product.id);
+        const productElement = createProductElement(product, isFavorite);
         productList.appendChild(productElement);
       });
     } else {
       productList.innerHTML = "<p>No se encontraron productos.</p>";
     }
   })
+
   .catch(error => {
     console.error("Error:", error);
     const productList = document.getElementById('productList');
