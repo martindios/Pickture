@@ -107,9 +107,19 @@ function createProductElement(product, isFavorite = false) {
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
 
+  // Dentro de createProductElement, en la sección de precio:
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
-  productPrice.textContent = product.price.value.current ? `€${product.price.value.current}` : "Precio no disponible";
+
+  if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
+    // Mostrar precio original tachado en rojo y el precio actual
+    productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
+  } else if (product.price && product.price.value && product.price.value.current) {
+    productPrice.textContent = `€${product.price.value.current}`;
+  } else {
+    productPrice.textContent = "Precio no disponible";
+  }
+
   productInfo.appendChild(productPrice);
 
   const starIcon = document.createElement('span');
