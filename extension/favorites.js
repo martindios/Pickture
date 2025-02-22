@@ -1,5 +1,5 @@
 // favorites.js
-import { openDatabase, agregarDatos, eliminarDatos, obtenerTodosLosDatos } from './indexdb.js';
+import { agregarDatos, eliminarDatos, obtenerTodosLosDatos } from './indexdb.js';
 
 export let favorites = [];
 
@@ -14,7 +14,7 @@ export function addToFavorites(product) {
     if (productNameElement && productNameElement.textContent === product.name) {
       const starIcon = element.querySelector('.star-icon');
       if (starIcon) {
-        starIcon.innerHTML = '🌟';
+        starIcon.src = './logos/doubleStar.png';
       }
     }
   });

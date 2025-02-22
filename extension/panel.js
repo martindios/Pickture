@@ -3,6 +3,8 @@ import { shareOnSocialMedia } from './social.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
 export let productsList = [];
+let currentScreen = 'Web';
+
 
 // Función para crear un elemento de producto
 export function createProductElement(product, isFavorite = false) {
@@ -40,26 +42,27 @@ export function createProductElement(product, isFavorite = false) {
   const buttonContainer = document.createElement('div');
   buttonContainer.className = 'button-container';
 
-  const starIcon = document.createElement('span');
+  const starIcon = document.createElement('img');
   starIcon.className = 'star-icon';
-  starIcon.innerHTML = isFavorite ? '🌟' : '⭐';
+  starIcon.src = isFavorite ? './logos/doubleStar.png' : './logos/star.png';
   starIcon.style.cursor = 'pointer';
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
-      starIcon.innerHTML = '⭐';
+      starIcon.src = './logos/star.png';
+      rePrint();
     } else {
       addToFavorites(product);
-      starIcon.innerHTML = '🌟';
+      starIcon.src = './logos/doubleStar.png';
+      rePrint();
     }
   });
   buttonContainer.appendChild(starIcon);
 
-  const buyIcon = document.createElement('span');
+  const buyIcon = document.createElement('img');
   buyIcon.className = 'buy-icon';
-  buyIcon.innerHTML = '🛒';
+  buyIcon.src = './logos/cart.png';
   buyIcon.style.cursor = 'pointer';
-  buyIcon.title = "Comprar producto";
   buyIcon.addEventListener('click', () => {
     window.open(product.link, '_blank');
   });
@@ -106,8 +109,18 @@ export function createProductElement(product, isFavorite = false) {
   return productDiv;
 }
 
+// Función para reprintear
+function rePrint(){
+  if (currentScreen === 'web') {
+    showWebScreen();
+  } else if (currentScreen === 'favorites') {
+    showFavoritesScreen();
+  }
+}
+
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
+  currentScreen = 'favorites';
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
@@ -128,6 +141,7 @@ function showFavoritesScreen() {
 
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
+  currentScreen = 'web';
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
@@ -143,6 +157,7 @@ function showWebScreen() {
 
 // Función para mostrar la pantalla de Inditex con inputs de búsqueda
 function showInditexScreen() {
+  currentScreen = 'inditex';
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar contenido previo
 
