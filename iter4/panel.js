@@ -107,6 +107,9 @@ function createProductElement(product, isFavorite = false) {
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
 
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.className = 'buttons-container';
+
   // Dentro de createProductElement, en la sección de precio:
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
@@ -122,10 +125,18 @@ function createProductElement(product, isFavorite = false) {
 
   productInfo.appendChild(productPrice);
 
-  const starIcon = document.createElement('span');
-  starIcon.className = 'star-icon';
-  starIcon.innerHTML = isFavorite ? '🌟' : '⭐';
-  starIcon.style.cursor = 'pointer';
+  const buyIcon = document.createElement('span');
+  buyIcon.className = 'buy-icon';
+  buyIcon.innerHTML = '🛒';
+  buyIcon.style.cursor = 'pointer';
+  buyIcon.title = "Comprar producto";
+  buyIcon.addEventListener('click', () => {
+    window.open(product.link, '_blank');
+  });
+  buttonsContainer.appendChild(buyIcon);
+
+  productInfo.appendChild(buttonsContainer);
+
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
@@ -173,22 +184,15 @@ function createProductElement(product, isFavorite = false) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
-  const productLinkButton = document.createElement('button');
-  productLinkButton.className = 'product-link-button';
-  productLinkButton.textContent = 'Comprar producto';
-  productLinkButton.addEventListener('click', () => {
-    window.open(product.link, '_blank');
-  });
-  productDiv.appendChild(productLinkButton);
-
   return productDiv;
 }
 
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
+  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+  
   if (favorites.length > 0) {
     favorites.forEach(product => {
       const productElement = createProductElement(product, true);
@@ -221,35 +225,8 @@ function showInditexScreen() {
   productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
 
-
-
-
-
-// Función para mostrar imágenes del producto (No funciona)
-async function obtenerImagenDeZara(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('No se pudo obtener la página');
-    }
-    const html = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const imgElement = doc.querySelector('picture.media-image img');
-    if (imgElement) {
-      return imgElement.src;
-    } else {
-      throw new Error('Imagen no encontrada');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
-  
   if (imgUrl) {
     callApiWithImage(imgUrl);
   }
