@@ -1,4 +1,5 @@
-// Lista de favoritos
+// Lista de productos y favoritos 
+let productsList = [];
 let favorites = [];
 
 // Función para añadir un producto a favoritos
@@ -139,7 +140,16 @@ function showFavoritesScreen() {
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Web.</p>";
+  productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
+
+  if (productsList.length > 0) {
+    productsList.forEach(product => {
+      const productElement = createProductElement(product);
+      productList.appendChild(productElement);
+    });
+  } else {
+    productList.innerHTML = "<p>No se encontraron productitos.</p>";
+  }
 }
 
 // Función para mostrar la pantalla de Inditex
@@ -211,6 +221,7 @@ function callApiWithImage(imageUrl) {
     // Comprobar duplicados
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
+        productsList.push(product);
         const productElement = createProductElement(product);
         productList.appendChild(productElement);
       });
