@@ -9,7 +9,8 @@
   ],
   "host_permissions": [
     "https://auth.inditex.com/*",
-    "https://api.inditex.com/*"
+    "https://api.inditex.com/*",
+    "http://localhost:80/*"
   ],
   "background": {
     "service_worker": "background.js"
