@@ -67,7 +67,7 @@ function createProductElement(product, isFavorite = false) {
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
   obtenerImagenDeZara(product.link).then(url => {
-    productImage.src = url || "logo_no_text_color.png";
+    productImage.src = url || "logo_zara.png";
   });
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
@@ -158,7 +158,7 @@ function showFavoritesScreen() {
       productList.appendChild(productElement);
     });
   } else {
-    productList.innerHTML = "<p>No se encontraron productos.</p>";
+    productList.innerHTML = "<h3>No se encontraron productos.</h3>";
   }
 }
 
