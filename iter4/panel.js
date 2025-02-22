@@ -72,24 +72,24 @@ function displayProducts(products) {
 
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Web.</p>";
+    const productList = document.getElementById('productList');
+    productList.innerHTML = "<p>Contenido de la pantalla Web.</p>";
 }
 
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
-  const productList = document.getElementById('productList');
-  if (favorites.length > 0) {
-    displayProducts(favorites); // Mostrar los productos favoritos
-  } else {
-    productList.innerHTML = "<p>No hay productos en favoritos.</p>";
-  }
+    const productList = document.getElementById('productList');
+    if (favorites.length > 0) {
+        displayProducts(favorites); // Mostrar los productos favoritos
+    } else {
+        productList.innerHTML = "<p>No hay productos en favoritos.</p>";
+    }
 }
 
 // Función para mostrar la pantalla de Inditex
 function showInditexScreen() {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
+    const productList = document.getElementById('productList');
+    productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
 
 /**
