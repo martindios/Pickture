@@ -94,7 +94,7 @@ export function createProductElement(product, isFavorite = false) {
   socialSharing.appendChild(twitterIcon);
 
   const instagramIcon = document.createElement('a');
-  instagramIcon.className = 'social-icon instagram';
+  instagramIcon.className = 'social-icon whatsapp';
   instagramIcon.innerHTML = '<img id="logoWhas" src="./logos/whatsapp.png" alt="Logo de whatsapp">';
   instagramIcon.title = "Compartir en Instagram";
   instagramIcon.addEventListener('click', (e) => {

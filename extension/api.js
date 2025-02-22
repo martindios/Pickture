@@ -1,13 +1,15 @@
+// Imports
 import { openDatabase } from './indexdb.js';
 import { favorites } from './favorites.js';
 import { productsList, createProductElement } from './panel.js';
 
+// Retrieves the value of a specified query parameter from the current page's URL
 export function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-// Función para obtener el token
+// Gets the token from the API
 export function getToken() {
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
@@ -16,6 +18,7 @@ export function getToken() {
   const tokenData = new URLSearchParams();
   tokenData.append("grant_type", "client_credentials");
   tokenData.append("scope", "technology.catalog.read");
+
 
   return fetch(tokenUrl, {
     method: "POST",
