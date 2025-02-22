@@ -5,7 +5,7 @@ let favorites = [];
 function addToFavorites(product) {
   favorites.push(product);
   console.log("Producto añadido a favoritos:", product);
-  alert(`"${product.name}" añadido a favoritos.`);
+  //alert(`"${product.name}" añadido a favoritos.`);
   
   // Cambiar el icono del producto añadido a favoritos
   const productElements = document.querySelectorAll('.product');
