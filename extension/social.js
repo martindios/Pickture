@@ -1,4 +1,5 @@
-export function shareOnSocialMedia(url, platform, message = "No te pierdas ninguna novedad gracias a #InditexTech. Estás a un click del outfit de tus sueños gracias a Pickture") {
+// Sends a product through social media
+export function shareOnSocialMedia(url, platform, message = "Don't lose any tech advancement thanks to #InditexTech. You are just one click out of your dreamed outfit thanks to Pickture") {
   let shareUrl = "";
 
   switch (platform) {

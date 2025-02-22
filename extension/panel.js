@@ -142,7 +142,7 @@ export function createProductElement(product, isFavorite = false) {
 // Function to reprint lists
 function rePrint(){
   if (currentScreen === 'web') {
-    showWebScreen();
+    showImageScreen();
   } else if (currentScreen === 'favorites') {
     showFavoritesScreen();
   }
@@ -271,23 +271,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Obtains the links
-  const webLink = document.getElementById('webLink');
+  const imageLink = document.getElementById('imageLink');
   const favoritesLink = document.getElementById('favoritesLink');
-  const inditexLink = document.getElementById('inditexLink');
+  const textLink = document.getElementById('textLink');
 
   // Function to remove active class from all links
   function removeActiveClass() {
-    webLink.classList.remove('active-link');
+    imageLink.classList.remove('active-link');
     favoritesLink.classList.remove('active-link');
-    inditexLink.classList.remove('active-link');
+    textLink.classList.remove('active-link');
   }
 
   // Asigns the active link
-  if (webLink) {
-    webLink.addEventListener('click', (e) => {
+  if (imageLink) {
+    imageLink.addEventListener('click', (e) => {
       e.preventDefault();
       removeActiveClass();
-      webLink.classList.add('active-link');
+      imageLink.classList.add('active-link');
       showImageScreen();
     });
   }
@@ -301,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (inditexLink) {
-    inditexLink.addEventListener('click', (e) => {
+  if (textLink) {
+    textLink.addEventListener('click', (e) => {
       e.preventDefault();
       removeActiveClass();
-      inditexLink.classList.add('active-link');
+      textLink.classList.add('active-link');
       showTextScreen();
     });
   }
@@ -317,6 +317,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Waits for the day/night mode to change
   darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+      // Si se activa el modo oscuro, cambiamos el logo a lightMode para poder volver a cambiar
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      // Si se desactiva el modo oscuro, se muestra el logo de darkMode
+      darkModeImg.src = './logos/darkMode.png';
+    }
+
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      darkModeImg.src = './logos/darkMode.png';
+    }
+
     if (document.body.classList.contains('dark-mode')) {
       darkModeImg.src = './logos/lightMode.png';
       logo.src = './logos/logo_no_text_white.png';
