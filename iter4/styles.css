@@ -1,25 +1,36 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #f9f9f9;
-  }
-  header {
+}
+
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
     background-color: #ffffff;
     border-bottom: 1px solid #ddd;
-  }
-  #logo {
+}
+
+#logo {
     width: 70px;
     height: auto;
-  }
-  #closeButton {
+}
+
+#mainText {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+#closeButton {
     background: #ff4444;
     color: white;
     border: none;
@@ -30,36 +41,39 @@ body {
     font-size: 16px;
     line-height: 24px;
     text-align: center;
-  }
-  #closeButton:hover {
+}
+
+#closeButton:hover {
     background: #cc0000;
-  }
-  .divider {
-    border-bottom: 1px solid #ddd;
-    margin: 10px 0;
-  }
-  .content {
+}
+
+.content {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
-  }
-  .content::-webkit-scrollbar {
+}
+
+.content::-webkit-scrollbar {
     width: 8px;
-  }
-  .content::-webkit-scrollbar-track {
+}
+
+.content::-webkit-scrollbar-track {
     background: #f1f1f1;
-  }
-  .content::-webkit-scrollbar-thumb {
+}
+
+.content::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 4px;
-  }
-  .content::-webkit-scrollbar-thumb:hover {
+}
+
+.content::-webkit-scrollbar-thumb:hover {
     background: #555;
-  }
-  .product {
+}
+
+.product {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -67,36 +81,43 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #fff;
-  }
-  .product-image {
+}
+
+.product-image {
     width: 80px;
     height: 80px;
     background-color: #eee;
     margin-right: 10px;
     border-radius: 4px;
     object-fit: cover;
-  }
-  .product-info {
+}
+
+.product-info {
     flex: 1;
-  }
-  .product-name {
+}
+
+.product-name {
     font-weight: bold;
     margin-bottom: 5px;
-  }
-  .product-price {
+}
+
+.product-price {
     color: #4CAF50;
     font-size: 14px;
-  }
-  .star-icon {
+}
+
+.star-icon {
     cursor: pointer;
     font-size: 20px;
-  }
-  .social-sharing {
+}
+
+.social-sharing {
     display: flex;
     gap: 10px;
     margin-top: 10px;
-  }
-  .social-icon {
+}
+
+.social-icon {
     font-size: 16px;
     color: #fff;
     background-color: #333;
@@ -104,22 +125,27 @@ body {
     border-radius: 50%;
     text-decoration: none;
     transition: background-color 0.3s ease;
-  }
-  .social-icon.facebook {
-    background-color: #1877f2;
+}
+
+.social-icon.facebook {
+    background-color: darkgray;
     padding-inline: 12px;
-  }
-  .social-icon.twitter {
-    background-color: #1da1f2;
-  }
-  .social-icon.instagram {
-    background-color: #e4405f;
+}
+
+.social-icon.twitter {
+    background-color: darkgray;
+}
+
+.social-icon.instagram {
+    background-color: darkgray;
     padding-inline: 9px;
-  }
-  .social-icon:hover {
+}
+
+.social-icon:hover {
     opacity: 0.8;
-  }
-  .header ul {
+}
+
+.header ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -127,16 +153,38 @@ body {
     justify-content: space-around;
     background-color: #ffffff;
     border-bottom: 1px solid #ddd;
-  }
-  .header ul li {
+}
+
+.header ul li {
     padding: 10px;
-  }
-  .header ul li a {
+}
+
+.header ul li a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
     font-size: large;
-  }
-  .header ul li a:hover {
+}
+
+.header ul li a:hover {
     color: #4CAF50;
-  }
+}
+
+.product-link-button {
+    height: 100%;
+    color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.product-link-button:hover {
+    background-color: #45a049;
+}
