@@ -1,100 +1,13 @@
 import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
 import { openDatabase } from './indexdb.js';
+import { getQueryParam, callApiWithImage } from './api.js';
 
-let productsList = [];
+export let productsList = [];
 
-export function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
-export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
-  const productList = document.getElementById('productList');
-  
-  // Mostrar el loader mientras se espera la respuesta de la API
-  productList.innerHTML = "<div class='loader'></div>";
-
-  const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
-  const password = "A3@X[K}2i7@I~@nF";
-  const tokenUrl = "https://auth.inditex.com:443/openam/oauth2/itxid/itxidmp/access_token";
-
-  const tokenData = new URLSearchParams();
-  tokenData.append("grant_type", "client_credentials");
-  tokenData.append("scope", "technology.catalog.read");
-
-  fetch(tokenUrl, {
-    method: "POST",
-    headers: {
-      "Authorization": "Basic " + btoa(username + ":" + password),
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: tokenData.toString()
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`Error HTTP al obtener el token: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(tokenResponse => {
-    const token = tokenResponse.id_token;
-    const getUrl = `https://api.inditex.com/pubvsearch/products?image=${encodeURIComponent(imageUrl)}&page=1&perPage=5`;
-
-    return fetch(getUrl, {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json"
-      }
-    });
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`Error HTTP en la petición GET: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(json => {
-    const products = Array.isArray(json) ? json : json.products;
-    const uniqueProducts = products.filter((product, index, self) =>
-      index === self.findIndex(p => p.id === product.id && p.name === product.name)
-    );
-
-    // Si no se encontraron productos y aún no se alcanzó el máximo de intentos, se reintenta la petición
-    if (uniqueProducts.length === 0 && attempt < maxAttempts) {
-      console.log(`Reintentando petición... intento ${attempt + 1}`);
-      return callApiWithImage(imageUrl, attempt + 1, maxAttempts);
-    }
-
-    // Limpiar el spinner antes de mostrar los resultados
-    productList.innerHTML = "";
-
-    if (uniqueProducts && uniqueProducts.length > 0) {
-      uniqueProducts.forEach(product => {
-        const isFavorite = favorites.some(fav => fav.id === product.id);
-        productsList.push(product);
-        const productElement = createProductElement(product, isFavorite);
-        productList.appendChild(productElement);
-      });
-    } else {
-      productList.innerHTML = "<p>No se encontraron productos.</p>";
-    }
-  })
-  .catch(error => {
-    console.error("Error:", error);
-    productList.innerHTML = `<p>Error: ${error.message}</p>`;
-  });
-
-  openDatabase().then(() => {
-      console.log('Base de datos abierta con éxito');
-  }).catch(error => {
-      console.error('Error al abrir la base de datos:', error);
-  });
-}
 
 // Función para crear un elemento de producto
-function createProductElement(product, isFavorite = false) {
+export function createProductElement(product, isFavorite = false) {
   const productDiv = document.createElement('div');
   productDiv.className = 'product';
 
