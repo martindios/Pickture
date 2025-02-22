@@ -8,12 +8,11 @@ export function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-function callApiWithImage(imageUrl) {
-
+export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
   const productList = document.getElementById('productList');
   
   // Mostrar el spinner mientras se espera la respuesta de la API
-  productList.innerHTML = "<div class='spinner'></div>"
+  productList.innerHTML = "<div class='spinner'></div>";
 
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
@@ -27,7 +26,7 @@ function callApiWithImage(imageUrl) {
     method: "POST",
     headers: {
       "Authorization": "Basic " + btoa(username + ":" + password),
-        "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     body: tokenData.toString()
   })
@@ -58,11 +57,17 @@ function callApiWithImage(imageUrl) {
   .then(json => {
     const products = Array.isArray(json) ? json : json.products;
     const uniqueProducts = products.filter((product, index, self) =>
-    index === self.findIndex(p => p.id === product.id && p.name === product.name)
+      index === self.findIndex(p => p.id === product.id && p.name === product.name)
     );
 
-    const productList = document.getElementById('productList');
-    productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+    // Si no se encontraron productos y aún no se alcanzó el máximo de intentos, se reintenta la petición
+    if (uniqueProducts.length === 0 && attempt < maxAttempts) {
+      console.log(`Reintentando petición... intento ${attempt + 1}`);
+      return callApiWithImage(imageUrl, attempt + 1, maxAttempts);
+    }
+
+    // Limpiar el spinner antes de mostrar los resultados
+    productList.innerHTML = "";
 
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
@@ -75,10 +80,8 @@ function callApiWithImage(imageUrl) {
       productList.innerHTML = "<p>No se encontraron productos.</p>";
     }
   })
-
   .catch(error => {
     console.error("Error:", error);
-    const productList = document.getElementById('productList');
     productList.innerHTML = `<p>Error: ${error.message}</p>`;
   });
 }
