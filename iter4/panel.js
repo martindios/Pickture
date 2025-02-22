@@ -6,6 +6,18 @@ function addToFavorites(product) {
   favorites.push(product);
   console.log("Producto añadido a favoritos:", product);
   alert(`"${product.name}" añadido a favoritos.`);
+  
+  // Cambiar el icono del producto añadido a favoritos
+  const productElements = document.querySelectorAll('.product');
+  productElements.forEach(element => {
+    const productNameElement = element.querySelector('.product-name');
+    if (productNameElement && productNameElement.textContent === product.name) {
+      const starIcon = element.querySelector('.star-icon');
+      if (starIcon) {
+        starIcon.innerHTML = '🌟';
+      }
+    }
+  });
 }
 
 // Función para compartir en redes sociales
