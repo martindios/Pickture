@@ -29,13 +29,16 @@ export function createProductElement(product, isFavorite = false) {
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
   if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
-    // Precio original tachado en rojo y el precio actual
-    productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
+    productPrice.innerHTML = `
+      <span class="original-price">€${product.price.value.original}</span>
+      <span class="current-price">€${product.price.value.current}</span>
+    `;
   } else if (product.price && product.price.value && product.price.value.current) {
     productPrice.textContent = `€${product.price.value.current}`;
   } else {
     productPrice.textContent = "Precio no disponible";
   }
+  
   productInfo.appendChild(productPrice);
 
   // Contenedor de botones
@@ -173,6 +176,7 @@ function showInditexScreen() {
   const queryLabel = document.createElement('label');
   queryLabel.textContent = 'Buscar:';
   queryLabel.htmlFor = 'queryInput';
+  queryLabel.classList.add('large-label');
 
   const queryInput = document.createElement('input');
   queryInput.type = 'text';
@@ -183,6 +187,7 @@ function showInditexScreen() {
   const brandLabel = document.createElement('label');
   brandLabel.textContent = 'Marca (opcional):';
   brandLabel.htmlFor = 'brandInput';
+  brandLabel.classList.add('large-label');
 
   const brandInput = document.createElement('input');
   brandInput.type = 'text';
@@ -264,4 +269,21 @@ document.addEventListener('DOMContentLoaded', () => {
       showInditexScreen();
     });
   }
+
+
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const darkModeImg = document.getElementById('darkModeImg');
+  
+  darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+      // Si se activa el modo oscuro, cambiamos el logo a lightMode para poder volver a cambiar
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      // Si se desactiva el modo oscuro, se muestra el logo de darkMode
+      darkModeImg.src = './logos/darkMode.png';
+    }
+  });
+  
+
 });
