@@ -9,7 +9,12 @@ export function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-function callApiWithImage(imageUrl) {
+export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
+  const productList = document.getElementById('productList');
+  
+  // Mostrar el loader mientras se espera la respuesta de la API
+  productList.innerHTML = "<div class='loader'></div>";
+
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
   const tokenUrl = "https://auth.inditex.com:443/openam/oauth2/itxid/itxidmp/access_token";
@@ -22,7 +27,7 @@ function callApiWithImage(imageUrl) {
     method: "POST",
     headers: {
       "Authorization": "Basic " + btoa(username + ":" + password),
-        "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     body: tokenData.toString()
   })
@@ -53,11 +58,17 @@ function callApiWithImage(imageUrl) {
   .then(json => {
     const products = Array.isArray(json) ? json : json.products;
     const uniqueProducts = products.filter((product, index, self) =>
-    index === self.findIndex(p => p.id === product.id && p.name === product.name)
+      index === self.findIndex(p => p.id === product.id && p.name === product.name)
     );
 
-    const productList = document.getElementById('productList');
-    productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+    // Si no se encontraron productos y aún no se alcanzó el máximo de intentos, se reintenta la petición
+    if (uniqueProducts.length === 0 && attempt < maxAttempts) {
+      console.log(`Reintentando petición... intento ${attempt + 1}`);
+      return callApiWithImage(imageUrl, attempt + 1, maxAttempts);
+    }
+
+    // Limpiar el spinner antes de mostrar los resultados
+    productList.innerHTML = "";
 
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
@@ -70,10 +81,8 @@ function callApiWithImage(imageUrl) {
       productList.innerHTML = "<p>No se encontraron productos.</p>";
     }
   })
-
   .catch(error => {
     console.error("Error:", error);
-    const productList = document.getElementById('productList');
     productList.innerHTML = `<p>Error: ${error.message}</p>`;
   });
 
@@ -92,11 +101,7 @@ function createProductElement(product, isFavorite = false) {
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
   productImage.src = "logo_zara.png";
-  /*
-  obtenerImagenDeZara(product.link).then(url => {
-    productImage.src = url || "logo_zara.png";
-  });
-  */
+
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
@@ -108,10 +113,23 @@ function createProductElement(product, isFavorite = false) {
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
 
+  // Dentro de createProductElement, en la sección de precio:
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
-  productPrice.textContent = product.price.value.current ? `€${product.price.value.current}` : "Precio no disponible";
+
+  if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
+    // Mostrar precio original tachado en rojo y el precio actual
+    productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
+  } else if (product.price && product.price.value && product.price.value.current) {
+    productPrice.textContent = `€${product.price.value.current}`;
+  } else {
+    productPrice.textContent = "Precio no disponible";
+  }
+
   productInfo.appendChild(productPrice);
+
+  const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'button-container';
 
   const starIcon = document.createElement('span');
   starIcon.className = 'star-icon';
@@ -126,7 +144,19 @@ function createProductElement(product, isFavorite = false) {
       starIcon.innerHTML = '🌟';
     }
   });
-  productInfo.appendChild(starIcon);
+  buttonContainer.appendChild(starIcon);
+
+  const buyIcon = document.createElement('span');
+  buyIcon.className = 'buy-icon';
+  buyIcon.innerHTML = '🛒';
+  buyIcon.style.cursor = 'pointer';
+  buyIcon.title = "Comprar producto";
+  buyIcon.addEventListener('click', () => {
+    window.open(product.link, '_blank');
+  });
+  buttonContainer.appendChild(buyIcon);
+
+  productInfo.appendChild(buttonContainer);
 
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
@@ -164,13 +194,6 @@ function createProductElement(product, isFavorite = false) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
-  const productLinkButton = document.createElement('button');
-  productLinkButton.className = 'product-link-button';
-  productLinkButton.textContent = 'Comprar producto';
-  productLinkButton.addEventListener('click', () => {
-    window.open(product.link, '_blank');
-  });
-  productDiv.appendChild(productLinkButton);
 
   return productDiv;
 }
@@ -216,30 +239,6 @@ function showInditexScreen() {
   const productList = document.getElementById('productList');
   productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
-
-// Función para mostrar imágenes del producto (No funciona)
-/*
-async function obtenerImagenDeZara(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('No se pudo obtener la página');
-    }
-    const html = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const imgElement = doc.querySelector('picture.media-image img');
-    if (imgElement) {
-      return imgElement.src;
-    } else {
-      throw new Error('Imagen no encontrada');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
-}
-  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
