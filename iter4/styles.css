@@ -119,26 +119,13 @@ header {
 
 .social-icon {
     font-size: 16px;
-    color: #fff;
-    background-color: #333;
+    color: #000;
+    background-color: transparent;
     padding: 8px;
     border-radius: 50%;
     text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.social-icon.facebook {
-    background-color: darkgray;
-    padding-inline: 12px;
-}
-
-.social-icon.twitter {
-    background-color: darkgray;
-}
-
-.social-icon.instagram {
-    background-color: darkgray;
-    padding-inline: 9px;
+    transition: opacity 0.3s ease;
+    border: 1px solid #000;
 }
 
 .social-icon:hover {
