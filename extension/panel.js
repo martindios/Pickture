@@ -8,6 +8,7 @@ let currentScreen = 'web';
 
 // Función para crear un elemento de producto
 export function createProductElement(product, isFavorite = false) {
+
   const productDiv = document.createElement('div');
   productDiv.className = 'product';
 
@@ -29,13 +30,16 @@ export function createProductElement(product, isFavorite = false) {
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
   if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
-    // Precio original tachado en rojo y el precio actual
-    productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
+    productPrice.innerHTML = `
+      <span class="original-price">€${product.price.value.original}</span>
+      <span class="current-price">€${product.price.value.current}</span>
+    `;
   } else if (product.price && product.price.value && product.price.value.current) {
     productPrice.textContent = `€${product.price.value.current}`;
   } else {
     productPrice.textContent = "Precio no disponible";
   }
+  
   productInfo.appendChild(productPrice);
 
   // Contenedor de botones
@@ -44,54 +48,83 @@ export function createProductElement(product, isFavorite = false) {
 
   const starIcon = document.createElement('img');
   starIcon.className = 'star-icon';
-  starIcon.src = isFavorite ? './logos/doubleStar.png' : './logos/star.png';
+  starIcon.src = isFavorite 
+    ? (document.body.classList.contains('dark-mode') ? './logos/doubleStarW.png' : './logos/doubleStar.png')
+    : (document.body.classList.contains('dark-mode') ? './logos/starW.png' : './logos/star.png');
   starIcon.style.cursor = 'pointer';
+  
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
-      starIcon.src = './logos/star.png';
+      starIcon.src = document.body.classList.contains('dark-mode')
+        ? './logos/starW.png'
+        : './logos/star.png';
       rePrint();
     } else {
       addToFavorites(product);
-      starIcon.src = './logos/doubleStar.png';
+      starIcon.src = document.body.classList.contains('dark-mode')
+        ? './logos/doubleStarW.png'
+        : './logos/doubleStar.png';
       rePrint();
     }
   });
+  
+  
   buttonContainer.appendChild(starIcon);
 
   const buyIcon = document.createElement('img');
   buyIcon.className = 'buy-icon';
-  buyIcon.src = './logos/cart.png';
+  buyIcon.src = document.body.classList.contains('dark-mode') ? './logos/cartW.png' : './logos/cart.png';
   buyIcon.style.cursor = 'pointer';
   buyIcon.addEventListener('click', () => {
     window.open(product.link, '_blank');
   });
   buttonContainer.appendChild(buyIcon);
+  
   productInfo.appendChild(buttonContainer);
 
   // Sección de compartir en redes sociales
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
 
-  const facebookIcon = document.createElement('a');
-  facebookIcon.className = 'social-icon facebook';
-  facebookIcon.innerHTML = '<img id="logoFacebook" src="./logos/facebook.png" alt="Logo de facebook">';
-  facebookIcon.title = "Compartir en Facebook";
-  facebookIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "facebook");
-  });
-  socialSharing.appendChild(facebookIcon);
+// Dentro de createProductElement, antes de crear los iconos:
+const isDarkMode = document.body.classList.contains('dark-mode');
+const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
+const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
+const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsapp.png';
 
-  const twitterIcon = document.createElement('a');
-  twitterIcon.className = 'social-icon twitter';
-  twitterIcon.innerHTML = '<img id="logoTwitter" src="./logos/twitter.png" alt="Logo de twitter">';
-  twitterIcon.title = "Compartir en Twitter";
-  twitterIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "twitter");
-  });
-  socialSharing.appendChild(twitterIcon);
+// Icono de Facebook
+const facebookIcon = document.createElement('a');
+facebookIcon.className = 'social-icon facebook';
+facebookIcon.innerHTML = `<img id="logoFacebook" src="${facebookSrc}" alt="Logo de Facebook">`;
+facebookIcon.title = "Compartir en Facebook";
+facebookIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "facebook");
+});
+socialSharing.appendChild(facebookIcon);
+
+// Icono de Twitter
+const twitterIcon = document.createElement('a');
+twitterIcon.className = 'social-icon twitter';
+twitterIcon.innerHTML = `<img id="logoTwitter" src="${twitterSrc}" alt="Logo de Twitter">`;
+twitterIcon.title = "Compartir en Twitter";
+twitterIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "twitter");
+});
+socialSharing.appendChild(twitterIcon);
+
+// Icono de WhatsApp
+const whatsappIcon = document.createElement('a');
+whatsappIcon.className = 'social-icon whatsapp';
+whatsappIcon.innerHTML = `<img id="logoWhas" src="${whatsappSrc}" alt="Logo de WhatsApp">`;
+whatsappIcon.title = "Compartir en WhatsApp";
+whatsappIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  shareOnSocialMedia(product.url || "#", "whatsapp");
+});
+socialSharing.appendChild(whatsappIcon);
 
   const instagramIcon = document.createElement('a');
   instagramIcon.className = 'social-icon whatsapp';
@@ -173,6 +206,7 @@ function showInditexScreen() {
   const queryLabel = document.createElement('label');
   queryLabel.textContent = 'Buscar:';
   queryLabel.htmlFor = 'queryInput';
+  queryLabel.classList.add('large-label');
 
   const queryInput = document.createElement('input');
   queryInput.type = 'text';
@@ -183,6 +217,7 @@ function showInditexScreen() {
   const brandLabel = document.createElement('label');
   brandLabel.textContent = 'Marca (opcional):';
   brandLabel.htmlFor = 'brandInput';
+  brandLabel.classList.add('large-label');
 
   const brandInput = document.createElement('input');
   brandInput.type = 'text';
@@ -263,4 +298,40 @@ document.addEventListener('DOMContentLoaded', () => {
       showInditexScreen();
     });
   }
+
+
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const darkModeImg = document.getElementById('darkModeImg');
+  const logo = document.getElementById('logo');
+
+  
+  darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+      // Si se activa el modo oscuro, cambiamos el logo a lightMode para poder volver a cambiar
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      // Si se desactiva el modo oscuro, se muestra el logo de darkMode
+      darkModeImg.src = './logos/darkMode.png';
+    }
+
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      darkModeImg.src = './logos/darkMode.png';
+    }
+
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeImg.src = './logos/lightMode.png';
+      logo.src = './logos/logo_no_text_white.png';
+    } else {
+      darkModeImg.src = './logos/darkMode.png';
+      logo.src = './logos/logo_no_text_black.png';
+    }
+
+    // Re-renderiza la lista de productos para actualizar los iconos de favoritos
+    rePrint();
+  });
+  
+
 });
