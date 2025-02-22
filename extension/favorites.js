@@ -62,7 +62,7 @@ export function removeFromFavorites(product) {
 export async function updateFavorites() {
  try {
     favoritesList = await obtainAllData();
-    console.log('Favorites list updated:', favorites);
+    console.log('Favorites list updated:', favoritesList);
   }
   catch (error) {
     console.error('Error updating the favorites list:', error);

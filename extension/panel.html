@@ -6,31 +6,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-  <title>Panel de URL de Imagen</title>
+  <title>Pickture</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <a href="http://localhost:80"><img id="logo" src="./logos/logo_no_text_black.png" alt="Logo de la extensión"></a>
+    <a href="http://localhost:80"><img id="logo" src="./logos/logo_no_text_black.png" alt="Extension Logo"></a>
     <a href="http://localhost:80"><h1 id="mainText">Pickture</h1></a> 
-    <button id="closeButton" title="Cerrar panel">×</button>
+    <button id="closeButton" title="closePanel">×</button>
   </header>
   <div class="content">
     <div class="header">
       <ul>
-        <li><a href="#" id="webLink" class="active-link">Imagen</a></li>
-        <li><a href="#" id="inditexLink">Texto</a></li>
-        <li><a href="#" id="favoritesLink">Favoritos</a></li>
+        <li><a href="#" id="imageLink" class="active-link">Image</a></li>
+        <li><a href="#" id="textLink">Text</a></li>
+        <li><a href="#" id="favoritesLink">Favorites</a></li>
       </ul>
     </div>
-    <!-- Contenedor para la lista de productos -->
+    
     <div class="product-list-container">
-      <p class="productList" style="font-weight: bold; font-size: large;">Productos encontrados:</p>
+      <p class="productList" style="font-weight: bold; font-size: large;">Products found:</p>
       <div id="productList"></div>
     </div>
   </div>
   <button id="darkModeToggle">
-    <img src="./logos/darkMode.png" id="darkModeImg" alt="Modo Oscuro">
+    <img src="./logos/darkMode.png" id="darkModeImg" alt="Dark Mode">
   </button>
   
   <script type="module" src="panel.js"></script>

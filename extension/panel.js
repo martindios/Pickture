@@ -1,4 +1,4 @@
-import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
+import { addToFavorites, removeFromFavorites, favoritesList, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
@@ -148,8 +148,8 @@ function showFavoritesScreen() {
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
   updateFavorites().then(() => {
-    if (favorites.length > 0) {
-      favorites.forEach(product => {
+    if (favoritesList.length > 0) {
+      favoritesList.forEach(product => {
         const productElement = createProductElement(product, true);
         productList.appendChild(productElement);
       });
@@ -170,7 +170,7 @@ function showWebScreen() {
 
   if (productsList.length > 0) {
     productsList.forEach(product => {
-      const productElement = createProductElement(product, favorites.some(fav => fav.id === product.id));
+      const productElement = createProductElement(product, favoritesList.some(fav => fav.id === product.id));
       productList.appendChild(productElement);
     });
   } else {

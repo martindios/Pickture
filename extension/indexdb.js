@@ -1,14 +1,13 @@
 export let db;
 
-
-// Creación o apertura de la base de datos
+// Create or open the database
 export function openDatabase() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open('Favourites', 1);
+        const request = indexedDB.open('Favorites', 1);
 
         request.onupgradeneeded = function(event) {
             db = event.target.result;
-            db.createObjectStore('myFavourites', { keyPath: 'id' });
+            db.createObjectStore('myFavorites', { keyPath: 'id' });
         };
 
         request.onsuccess = function(event) {
@@ -17,42 +16,42 @@ export function openDatabase() {
         };
 
         request.onerror = function(event) {
-            reject('Error al abrir la base de datos: ' + event.target.error);
+            reject('Error opening the database: ' + event.target.error);
         };
     });
 }
 
 
-// Función para agregar datos
+// Add data to the database
 export function addData(data) {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction('myFavourites', 'readwrite');
-        const objectStore = transaction.objectStore('myFavourites');
+        const transaction = db.transaction('myFavorites', 'readwrite');
+        const objectStore = transaction.objectStore('myFavorites');
 
-        // Asegúrate de que el objeto tenga una propiedad 'id'
+        // Checks that the object has an ID property
         if (!data.id) {
-            reject('El objeto debe tener una propiedad "id".');
+            reject('The object must have an "id" property.');
             return;
         }
 
         const addRequest = objectStore.add(data);
 
         addRequest.onsuccess = function() {
-            resolve('Datos agregados: ' + JSON.stringify(data));
+            resolve('Added data: ' + JSON.stringify(data));
         };
 
         addRequest.onerror = function(event) {
-            reject('Error al agregar datos: ' + event.target.error);
+            reject('Error adding data: ' + event.target.error);
         };
     });
 }
 
 
-// Función para obtener datos
+// Obtain data from the database with the parameter as id
 export function obtainData(id) {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction('myFavourites', 'readonly');
-        const objectStore = transaction.objectStore('myFavourites');
+        const transaction = db.transaction('myFavorites', 'readonly');
+        const objectStore = transaction.objectStore('myFavorites');
 
         const getRequest = objectStore.get(id);
 
@@ -60,22 +59,22 @@ export function obtainData(id) {
             if (getRequest.result) {
                 resolve(getRequest.result);
             } else {
-                reject('No se encontraron datos para el ID: ' + id);
+                reject('No data was found with the id: ' + id);
             }
         };
 
         getRequest.onerror = function(event) {
-            reject('Error al recuperar datos: ' + event.target.error);
+            reject('Error obtaining data: ' + event.target.error);
         };
     });
 }
 
 
-// Función para obtener todos los datos
+// Obtain all the data from the database
 export function obtainAllData() {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction('myFavourites', 'readonly');
-        const objectStore = transaction.objectStore('myFavourites');
+        const transaction = db.transaction('myFavorites', 'readonly');
+        const objectStore = transaction.objectStore('myFavorites');
 
         const getAllRequest = objectStore.getAll();
 
@@ -84,26 +83,26 @@ export function obtainAllData() {
         };
 
         getAllRequest.onerror = function(event) {
-            reject('Error al recuperar todos los datos: ' + event.target.error);
+            reject('Error obtaining all the data: ' + event.target.error);
         };
     });
 }
 
 
-// Función para eliminar datos
+// Deleting data from the database with the parameter as id
 export function deleteData(id) {
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction('myFavourites', 'readwrite');
-        const objectStore = transaction.objectStore('myFavourites');
+        const transaction = db.transaction('myFavorites', 'readwrite');
+        const objectStore = transaction.objectStore('myFavorites');
 
         const deleteRequest = objectStore.delete(id);
 
         deleteRequest.onsuccess = function() {
-            resolve('Datos eliminados para el ID: ' + id);
+            resolve('Data deleted with id: ' + id);
         };
 
         deleteRequest.onerror = function(event) {
-            reject('Error al eliminar datos: ' + event.target.error);
+            reject('Error deleting data: ' + event.target.error);
         };
     });
 }

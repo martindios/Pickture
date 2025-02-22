@@ -1,6 +1,6 @@
 // Imports
 import { openDatabase } from './indexdb.js';
-import { favorites } from './favorites.js';
+import { favoritesList } from './favorites.js';
 import { productsList, createProductElement } from './panel.js';
 
 
@@ -97,7 +97,7 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
       // If there are products, show them and save them un the productsList array
       if (uniqueProducts && uniqueProducts.length > 0) {
         uniqueProducts.forEach(product => {
-          const isFavorite = favorites.some(fav => fav.id === product.id);
+          const isFavorite = favoritesList.some(fav => fav.id === product.id);
           productsList.push(product);
           const productElement = createProductElement(product, isFavorite);
           productList.appendChild(productElement);
@@ -175,7 +175,7 @@ export function callApiWithText(queryText, brand) {
         // If there are products, show them and save them un the productsList array
         if (uniqueProducts && uniqueProducts.length > 0) {
           uniqueProducts.forEach(product => {
-            const isFavorite = favorites.some(fav => fav.id === product.id);
+            const isFavorite = favoritesList.some(fav => fav.id === product.id);
             productsList.push(product);
             const productElement = createProductElement(product, isFavorite);
             productList.appendChild(productElement);
