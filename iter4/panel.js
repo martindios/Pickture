@@ -20,10 +20,22 @@ function addToFavorites(product) {
   });
 }
 
+// Función para eliminar un producto de favoritos
 function removeFromFavorites(product) {
+  // Filtrar el producto del array de favoritos
   favorites = favorites.filter(fav => fav.id !== product.id);
   console.log("Producto eliminado de favoritos:", product);
+
+  // Buscar el elemento del producto en el DOM y eliminarlo
+  const productElements = document.querySelectorAll('.product');
+  productElements.forEach(element => {
+    const productNameElement = element.querySelector('.product-name');
+    if (productNameElement && productNameElement.textContent === product.name) {
+      element.remove();
+    }
+  });
 }
+
 
 
 // Función para compartir en redes sociales
@@ -55,7 +67,7 @@ function createProductElement(product, isFavorite = false) {
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
   obtenerImagenDeZara(product.link).then(url => {
-    productImage.src = url || "logo_no_text_color.png";
+    productImage.src = url || "logo_zara.png";
   });
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
@@ -146,7 +158,7 @@ function showFavoritesScreen() {
       productList.appendChild(productElement);
     });
   } else {
-    productList.innerHTML = "<p>No se encontraron productos.</p>";
+    productList.innerHTML = "<h3>No se encontraron productos.</h3>";
   }
 }
 
