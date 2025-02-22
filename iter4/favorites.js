@@ -1,4 +1,6 @@
 // favorites.js
+import { openDatabase, agregarDatos, eliminarDatos, obtenerTodosLosDatos } from './indexdb.js';
+
 export let favorites = [];
 
 export function addToFavorites(product) {
@@ -16,6 +18,14 @@ export function addToFavorites(product) {
       }
     }
   });
+
+  // Agrega el producto a la base de datos
+  try {
+    agregarDatos(product);
+    console.log('Producto añadido a la base de datos:', product);
+  } catch (error) {
+    console.error('Error al agregar producto a la base de datos:', error);
+  }
 }
 
 export function removeFromFavorites(product) {
@@ -31,4 +41,25 @@ export function removeFromFavorites(product) {
       element.remove();
     }
   });
+
+  // Elimina el producto de la base de datos
+  try {
+    eliminarDatos(product.id);
+    console.log('Producto eliminado de la base de datos:', product);
+  }
+  catch (error) {
+    console.error('Error al eliminar producto de la base de datos:', error);
+  }
+}
+
+export async function updateFavorites() {
+
+ try {
+    favorites = await obtenerTodosLosDatos();
+    console.log('Favoritos actualizados:', favorites);
+  }
+  catch (error) {
+    console.error('Error al actualizar favoritos:', error);
+ }
+ 
 }
