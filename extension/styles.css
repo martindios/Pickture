@@ -284,7 +284,7 @@ a {
 
 .form-inputs button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #999ea2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -293,6 +293,6 @@ a {
 }
 
 .form-inputs button:hover {
-  background-color: #0056b3;
+  background-color: #595e63;
 }
 
