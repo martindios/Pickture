@@ -126,16 +126,6 @@ whatsappIcon.addEventListener('click', (e) => {
 });
 socialSharing.appendChild(whatsappIcon);
 
-  const instagramIcon = document.createElement('a');
-  instagramIcon.className = 'social-icon whatsapp';
-  instagramIcon.innerHTML = '<img id="logoWhas" src="./logos/whatsapp.png" alt="Logo de whatsapp">';
-  instagramIcon.title = "Compartir en Instagram";
-  instagramIcon.addEventListener('click', (e) => {
-    e.preventDefault();
-    shareOnSocialMedia(product.url || "#", "instagram");
-  });
-  socialSharing.appendChild(instagramIcon);
-
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
