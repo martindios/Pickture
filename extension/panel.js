@@ -3,7 +3,7 @@ import { shareOnSocialMedia } from './social.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
 export let productsList = [];
-let currentScreen = 'Web';
+let currentScreen = 'web';
 
 
 // Función para crear un elemento de producto
