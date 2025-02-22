@@ -67,7 +67,14 @@ function callApiWithImage(imageUrl) {
           // Espacio para la foto (usamos una imagen de ejemplo si no hay URL)
           const productImage = document.createElement('img');
           productImage.className = 'product-image';
-          productImage.src = product.imageUrl || "https://via.placeholder.com/80"; // Imagen de ejemplo si no hay URL
+          obtenerImagenDeZara(product.link).then(url => {
+            if(url){
+              productImage.src = url;
+            } else {
+              productImage.src = "icon.png"; // Imagen de ejemplo si no hay URL
+            }
+          });
+          // productImage.src = product.imageUrl || "https://via.placeholder.com/80"; // Imagen de ejemplo si no hay URL
           productImage.alt = product.name;
           productDiv.appendChild(productImage);
 
@@ -75,6 +82,7 @@ function callApiWithImage(imageUrl) {
           const productInfo = document.createElement('div');
           productInfo.className = 'product-info';
 
+          // Información del producto (nombre y precio)
           const productName = document.createElement('div');
           productName.className = 'product-name';
           productName.textContent = product.name || "Nombre no disponible";
@@ -82,11 +90,20 @@ function callApiWithImage(imageUrl) {
 
           const productPrice = document.createElement('div');
           productPrice.className = 'product-price';
-          productPrice.textContent = product.price ? `€${product.price}` : "Precio no disponible";
+          productPrice.textContent = product.price.value.current ? `€${product.price.value.current}` : "Precio no disponible";
           productInfo.appendChild(productPrice);
 
           productDiv.appendChild(productInfo);
           productList.appendChild(productDiv);
+
+          // Botón para redirigir al enlace del producto
+          const productLinkButton = document.createElement('button');
+          productLinkButton.className = 'product-link-button';
+          productLinkButton.textContent = 'Comprar producto';
+          productLinkButton.addEventListener('click', () => {
+          window.open(product.link, '_blank');
+          });
+          productDiv.appendChild(productLinkButton);
         });
       } else {
         productList.innerHTML = "<p>No se encontraron productos.</p>";
@@ -98,6 +115,28 @@ function callApiWithImage(imageUrl) {
       productList.innerHTML = `<p>Error: ${error.message}</p>`;
     });
 }
+
+async function obtenerImagenDeZara(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('No se pudo obtener la página');
+    }
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const imgElement = doc.querySelector('picture.media-image img');
+    if (imgElement) {
+      return imgElement.src; // Devolver la URL de la imagen
+    } else {
+      throw new Error('Imagen no encontrada');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // Obtener la URL de la imagen desde el parámetro "img" en la URL
