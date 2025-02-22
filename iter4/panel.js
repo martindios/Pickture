@@ -116,7 +116,6 @@ function showFavoritesScreen() {
 
   if (favorites.length > 0) {
     favorites.forEach(product => {
-<<<<<<< HEAD
       // Creación un div para cada favorito
       const productDiv = document.createElement('div');
       productDiv.className = 'product';
@@ -206,10 +205,8 @@ function showFavoritesScreen() {
       window.open(product.link, '_blank');
       });
       productDiv.appendChild(productLinkButton);
-=======
       const productElement = createProductElement(product);
       productList.appendChild(productElement);
->>>>>>> 361363af4928cb4115f7e9d70f254b8498246379
     });
   } else {
     productList.innerHTML = "<p>No se encontraron productos.</p>";
