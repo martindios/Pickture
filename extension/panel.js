@@ -1,10 +1,9 @@
 import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
 import { openDatabase } from './indexdb.js';
-import { getQueryParam, callApiWithImage } from './api.js';
+import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
 export let productsList = [];
-
 
 // Función para crear un elemento de producto
 export function createProductElement(product, isFavorite = false) {
@@ -14,7 +13,6 @@ export function createProductElement(product, isFavorite = false) {
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
   productImage.src = "./logos/logo_zara.png";
-
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
@@ -26,21 +24,20 @@ export function createProductElement(product, isFavorite = false) {
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
 
-  // Dentro de createProductElement, en la sección de precio:
+  // Sección de precio
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
-
   if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
-    // Mostrar precio original tachado en rojo y el precio actual
+    // Precio original tachado en rojo y el precio actual
     productPrice.innerHTML = `<span style="color: red; text-decoration: line-through;">€${product.price.value.original}</span> <span>€${product.price.value.current}</span>`;
   } else if (product.price && product.price.value && product.price.value.current) {
     productPrice.textContent = `€${product.price.value.current}`;
   } else {
     productPrice.textContent = "Precio no disponible";
   }
-
   productInfo.appendChild(productPrice);
 
+  // Contenedor de botones
   const buttonContainer = document.createElement('div');
   buttonContainer.className = 'button-container';
 
@@ -68,9 +65,9 @@ export function createProductElement(product, isFavorite = false) {
     window.open(product.link, '_blank');
   });
   buttonContainer.appendChild(buyIcon);
-
   productInfo.appendChild(buttonContainer);
 
+  // Sección de compartir en redes sociales
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
 
@@ -107,7 +104,6 @@ export function createProductElement(product, isFavorite = false) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
-
   return productDiv;
 }
 
@@ -131,11 +127,10 @@ function showFavoritesScreen() {
   });
 }
 
-
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
+  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
   if (productsList.length > 0) {
     productsList.forEach(product => {
@@ -147,10 +142,55 @@ function showWebScreen() {
   }
 }
 
-// Función para mostrar la pantalla de Inditex
+// Función para mostrar la pantalla de Inditex con inputs de búsqueda
 function showInditexScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
+  productList.innerHTML = ""; // Limpiar contenido previo
+
+  const container = document.createElement('div');
+  container.className = 'inditex-form-container';
+
+  // Input para el término de búsqueda
+  const queryLabel = document.createElement('label');
+  queryLabel.textContent = 'Buscar:';
+  queryLabel.htmlFor = 'queryInput';
+
+  const queryInput = document.createElement('input');
+  queryInput.type = 'text';
+  queryInput.id = 'queryInput';
+  queryInput.placeholder = 'Ingrese término de búsqueda';
+
+  // Input opcional para la marca
+  const brandLabel = document.createElement('label');
+  brandLabel.textContent = 'Marca (opcional):';
+  brandLabel.htmlFor = 'brandInput';
+
+  const brandInput = document.createElement('input');
+  brandInput.type = 'text';
+  brandInput.id = 'brandInput';
+  brandInput.placeholder = 'Ingrese la marca';
+
+  // Botón para disparar la búsqueda
+  const searchButton = document.createElement('button');
+  searchButton.textContent = 'Buscar';
+  searchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const queryText = queryInput.value.trim();
+    const brand = brandInput.value.trim();
+    if (queryText) {
+      callApiWithText(queryText, brand);
+    } else {
+      productList.innerHTML = "<p>Ingrese un término de búsqueda</p>";
+    }
+  });
+
+  container.appendChild(queryLabel);
+  container.appendChild(queryInput);
+  container.appendChild(brandLabel);
+  container.appendChild(brandInput);
+  container.appendChild(searchButton);
+
+  productList.appendChild(container);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -169,9 +209,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const favoritesLink = document.getElementById('favoritesLink');
   const inditexLink = document.getElementById('inditexLink');
 
+  // Function to remove active class from all links
+  function removeActiveClass() {
+    webLink.classList.remove('active-link');
+    favoritesLink.classList.remove('active-link');
+    inditexLink.classList.remove('active-link');
+  }
+
+
   if (webLink) {
     webLink.addEventListener('click', (e) => {
       e.preventDefault();
+      removeActiveClass();
+      webLink.classList.add('active-link');
       showWebScreen();
     });
   }
@@ -179,6 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (favoritesLink) {
     favoritesLink.addEventListener('click', (e) => {
       e.preventDefault();
+      removeActiveClass();
+      favoritesLink.classList.add('active-link');
       showFavoritesScreen();
     });
   }
@@ -186,6 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (inditexLink) {
     inditexLink.addEventListener('click', (e) => {
       e.preventDefault();
+      removeActiveClass();
+      inditexLink.classList.add('active-link');
       showInditexScreen();
     });
   }
