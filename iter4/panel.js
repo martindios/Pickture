@@ -170,7 +170,7 @@ function showWebScreen() {
 
   if (productsList.length > 0) {
     productsList.forEach(product => {
-      const productElement = createProductElement(product);
+      const productElement = createProductElement(product, favorites.some(fav => fav.id === product.id));
       productList.appendChild(productElement);
     });
   } else {
