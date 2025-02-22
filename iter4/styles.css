@@ -132,6 +132,10 @@ body {
   .social-icon:hover {
     opacity: 0.6;
   }
+
+  .social-icon.facebook {
+    padding-inline: 10px;
+  }
   
   .header ul {
     list-style: none;
