@@ -1,13 +1,17 @@
+// Imports
 import { openDatabase } from './indexdb.js';
 import { favorites } from './favorites.js';
 import { productsList, createProductElement } from './panel.js';
 
+
+// Retrieves the value of a specified query parameter from the current page's URL
 export function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-// Función para obtener el token
+
+// Gets the token from the API
 export function getToken() {
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
   const password = "A3@X[K}2i7@I~@nF";
@@ -17,6 +21,7 @@ export function getToken() {
   tokenData.append("grant_type", "client_credentials");
   tokenData.append("scope", "technology.catalog.read");
 
+  // Fetch the token
   return fetch(tokenUrl, {
     method: "POST",
     headers: {
@@ -26,27 +31,30 @@ export function getToken() {
     body: tokenData.toString()
   })
   .then(response => {
+    // Check if the response is OK
     if (!response.ok) {
-      throw new Error(`Error HTTP al obtener el token: ${response.status}`);
+      throw new Error(`HTTP error fetching the token: ${response.status}`);
     }
     return response.json();
   })
   .then(tokenResponse => tokenResponse.id_token);
 }
 
-// Función que utiliza el token para llamar a la API con la imagen
+
+// Use the token to call the API with the image
 export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
   const productList = document.getElementById('productList');
-  const productListLabel = document.querySelector('.productList'); // Buscar el elemento "Productos encontrados"
+  const productListLabel = document.querySelector('.productList'); 
 
-  // Ocultar el texto mientras se está cargando
+  // Hide the text while waiting for the API response
   if (productListLabel) {
     productListLabel.style.display = "none";
   }
 
-  // Mostrar el loader mientras se espera la respuesta de la API
+  // Show the loader while waiting for the API response
   productList.innerHTML = "<div class='loader'></div>";
 
+  // Fetch the token and call the API
   getToken()
     .then(token => { 
       const getUrl = `https://api.inditex.com/pubvsearch/products?image=${encodeURIComponent(imageUrl)}&page=1&perPage=5`;
@@ -59,31 +67,34 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
       });
     })
     .then(response => {
+      // Check if the response is OK
       if (!response.ok) {
-        throw new Error(`Error HTTP en la petición GET: ${response.status}`);
+        throw new Error(`HTTP error in the GET request: ${response.status}`);
       }
       return response.json();
     })
+    // Gets the products data and filters the repeated products
     .then(json => {
       const products = Array.isArray(json) ? json : json.products;
       const uniqueProducts = products.filter((product, index, self) =>
         index === self.findIndex(p => p.id === product.id && p.name === product.name)
       );
 
-      // Si no se encontraron productos y aún no se alcanzó el máximo de intentos, se reintenta la petición
+      // If no products are found, retry the request for a maximum of 2 attempts
       if (uniqueProducts.length === 0 && attempt < maxAttempts) {
-        console.log(`Reintentando petición... intento ${attempt + 1}`);
+        console.log(`Retrying petition... Attempt ${attempt + 1}`);
         return callApiWithImage(imageUrl, attempt + 1, maxAttempts);
       }
 
-      // Limpiar el spinner antes de mostrar los resultados
+      // Clear the loader before showing the results
       productList.innerHTML = "";
 
-      // Mostrar el texto de "Productos encontrados" solo si encontramos productos
+      // Show the text in case of finding products
       if (productListLabel) {
         productListLabel.style.display = "block";
       }
 
+      // If there are products, show them and save them un the productsList array
       if (uniqueProducts && uniqueProducts.length > 0) {
         uniqueProducts.forEach(product => {
           const isFavorite = favorites.some(fav => fav.id === product.id);
@@ -92,32 +103,40 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
           productList.appendChild(productElement);
         });
       } else {
-        productList.innerHTML = "<p>No se encontraron productos.</p>";
+        productList.innerHTML = "<p>No products found.</p>";
       }
     })
+    // Catch errors
     .catch(error => {
       console.error("Error:", error);
       productList.innerHTML = `<p>Error: ${error.message}</p>`;
     });
 
+  // Open the favorite products database
   openDatabase().then(() => {
-      console.log('Base de datos abierta con éxito');
+      console.log('Database opened succesfuly.');
   }).catch(error => {
-      console.error('Error al abrir la base de datos:', error);
+      console.error('Error opening the database:', error);
   });
 }
 
 
+// Use the token to call the API with text
 export function callApiWithText(queryText, brand) {
     const productList = document.getElementById('productList');
+    const productListLabel = document.querySelector('.productList');
 
+    // Hide the text while waiting for the API response
+    if (productListLabel) {
+      productListLabel.style.display = "none";
+    }
 
-    // Mostrar el loader mientras se espera la respuesta de la API
+    // Show the loader while waiting for the API response
     productList.innerHTML = "<div class='loader'></div>";
   
+    // Fetch the token and call the API
     getToken()
       .then(token => {
-        // Construir la URL con el query de texto y, si se proporciona, la marca
         let url = `https://api.inditex.com/searchpmpa/products?query=${encodeURIComponent(queryText)}`;
         if (brand) {
           url += `&brand=${encodeURIComponent(brand)}`;
@@ -132,21 +151,28 @@ export function callApiWithText(queryText, brand) {
         });
       })
       .then(response => {
+        // Check if the response is OK
         if (!response.ok) {
-          throw new Error(`Error HTTP en la petición GET: ${response.status}`);
+          throw new Error(`HTTP error in the GET request: ${response.status}`);
         }
         return response.json();
       })
+      // Gets the products data and filters the repeated products
       .then(json => {
-        // Suponiendo que la respuesta devuelva un arreglo de productos o un objeto con la propiedad "products"
         const products = Array.isArray(json) ? json : json.products;
         const uniqueProducts = products.filter((product, index, self) =>
           index === self.findIndex(p => p.id === product.id && p.name === product.name)
         );
   
-        // Limpiar el spinner antes de mostrar los resultados
+        // Clear the loader before showing the results
         productList.innerHTML = "";
+
+        // Show the text in case of finding products
+        if (productListLabel) {
+          productListLabel.style.display = "block";
+        }
   
+        // If there are products, show them and save them un the productsList array
         if (uniqueProducts && uniqueProducts.length > 0) {
           uniqueProducts.forEach(product => {
             const isFavorite = favorites.some(fav => fav.id === product.id);
@@ -155,20 +181,20 @@ export function callApiWithText(queryText, brand) {
             productList.appendChild(productElement);
           });
         } else {
-          productList.innerHTML = "<p>No se encontraron productos.</p>";
+          productList.innerHTML = "<p>No products found.</p>";
         }
       })
+      // Catch errors
       .catch(error => {
         console.error("Error:", error);
         productList.innerHTML = `<p>Error: ${error.message}</p>`;
       });
   
-    openDatabase()
-      .then(() => {
-        console.log('Base de datos abierta con éxito');
-      })
-      .catch(error => {
-        console.error('Error al abrir la base de datos:', error);
-      });
+    // Open the favorite products database
+    openDatabase().then(() => {
+        console.log('Database opened succesfuly.');
+    }).catch(error => {
+        console.error('Error opening the database:', error);
+    });
   }
   

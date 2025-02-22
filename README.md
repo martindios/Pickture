@@ -6,7 +6,7 @@ All this thanks to the [Inditex Tech Open Source APIs](https://developer.inditex
 - Icons and font (https://fonts.google.com) -> Open Source
 - Facebook icon (https://www.svgrepo.com/svg/512120/facebook-176) -> PD License
 - Twitter icon (https://www.svgrepo.com/svg/519928/twitter) -> GPL License
-- Whatsapp icon (https://www.svgrepo.com/svg/79107/whatsapp-logo-variant) -> CC0 License
+- Whatsapp icon (https://www.svgrepo.com/svg/500461/whatsapp) -> MIT License
 - Logo (https://inkscape.app/es/) -> GPL License
 
 ## Deployment

@@ -1,24 +1,26 @@
-// Crear el menú contextual
+// Creation of the contextual menu
 chrome.contextMenus.create({
   id: "Pickture",
-  title: "Buscar prendas similares",
+  title: "Search for similar clothes",
   contexts: ["image"]
 });
 
-// Escuchar el clic en el menú contextual
+
+// Listen for the click event on the contextual menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "Pickture") {
     const imgUrl = info.srcUrl;
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: mostrarPanel,
+      func: showPanel,
       args: [imgUrl]
     });
   }
 });
 
-// Función para mostrar el panel en la página
-function mostrarPanel(imgUrl) {
+
+// Function to show the panel
+function showPanel(imgUrl) {
   const iframe = document.createElement('iframe');
   iframe.src = chrome.runtime.getURL('panel.html') + `?img=${encodeURIComponent(imgUrl)}`;
   iframe.style.position = 'fixed';
@@ -30,7 +32,7 @@ function mostrarPanel(imgUrl) {
   iframe.style.zIndex = '100000';
   iframe.style.backgroundColor = 'white';
   document.body.appendChild(iframe);
-
+  // Listen for the message event to close the panel
   window.addEventListener('message', (event) => {
     if (event.data.action === 'closePanel') {
       iframe.remove();
