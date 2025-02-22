@@ -1,41 +1,7 @@
+import { addToFavorites, removeFromFavorites, favorites } from './favorites.js';
+
 // Lista de productos y favoritos 
 let productsList = [];
-let favorites = [];
-
-// Función para añadir un producto a favoritos
-function addToFavorites(product) {
-  favorites.push(product);
-  console.log("Producto añadido a favoritos:", product);
-  
-  // Cambiar el icono del producto añadido a favoritos
-  const productElements = document.querySelectorAll('.product');
-  productElements.forEach(element => {
-    const productNameElement = element.querySelector('.product-name');
-    if (productNameElement && productNameElement.textContent === product.name) {
-      const starIcon = element.querySelector('.star-icon');
-      if (starIcon) {
-        starIcon.innerHTML = '🌟';
-      }
-    }
-  });
-}
-
-// Función para eliminar un producto de favoritos
-function removeFromFavorites(product) {
-  // Filtrar el producto del array de favoritos
-  favorites = favorites.filter(fav => fav.id !== product.id);
-  console.log("Producto eliminado de favoritos:", product);
-
-  // Buscar el elemento del producto en el DOM y eliminarlo
-  const productElements = document.querySelectorAll('.product');
-  productElements.forEach(element => {
-    const productNameElement = element.querySelector('.product-name');
-    if (productNameElement && productNameElement.textContent === product.name) {
-      element.remove();
-    }
-  });
-}
-
 
 
 // Función para compartir en redes sociales
