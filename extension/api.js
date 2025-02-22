@@ -110,7 +110,8 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
 
 export function callApiWithText(queryText, brand) {
     const productList = document.getElementById('productList');
-    
+
+
     // Mostrar el loader mientras se espera la respuesta de la API
     productList.innerHTML = "<div class='loader'></div>";
   
