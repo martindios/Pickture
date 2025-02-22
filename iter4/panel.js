@@ -1,7 +1,7 @@
 // Lista de favoritos
 let favorites = [];
 
-// Función para obtener parámetros de la URL
+// Función para obtener parámetros de la URL 
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
