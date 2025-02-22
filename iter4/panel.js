@@ -1,5 +1,6 @@
-import { addToFavorites, removeFromFavorites, favorites } from './favorites.js';
+import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
+import { openDatabase } from './indexdb.js';
 
 let productsList = [];
 
@@ -75,6 +76,12 @@ function callApiWithImage(imageUrl) {
     const productList = document.getElementById('productList');
     productList.innerHTML = `<p>Error: ${error.message}</p>`;
   });
+
+  openDatabase().then(() => {
+      console.log('Base de datos abierta con éxito');
+  }).catch(error => {
+      console.error('Error al abrir la base de datos:', error);
+  });
 }
 
 // Función para crear un elemento de producto
@@ -84,9 +91,12 @@ function createProductElement(product, isFavorite = false) {
 
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
+  productImage.src = "logo_zara.png";
+  /*
   obtenerImagenDeZara(product.link).then(url => {
     productImage.src = url || "logo_zara.png";
   });
+  */
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
@@ -170,14 +180,19 @@ function showFavoritesScreen() {
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
-  if (favorites.length > 0) {
-    favorites.forEach(product => {
-      const productElement = createProductElement(product, true);
-      productList.appendChild(productElement);
-    });
-  } else {
-    productList.innerHTML = "<h3>No se encontraron productos.</h3>";
-  }
+  updateFavorites().then(() => {
+    if (favorites.length > 0) {
+      favorites.forEach(product => {
+        const productElement = createProductElement(product, true);
+        productList.appendChild(productElement);
+      });
+    } else {
+      productList.innerHTML = "<h3>No se encontraron productos.</h3>";
+    }
+  }).catch(error => {
+    console.error('Error al actualizar los favoritos:', error);
+    productList.innerHTML = `<p>Error: ${error.message}</p>`;
+  });
 }
 
 
@@ -202,11 +217,8 @@ function showInditexScreen() {
   productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
 
-
-
-
-
 // Función para mostrar imágenes del producto (No funciona)
+/*
 async function obtenerImagenDeZara(url) {
   try {
     const response = await fetch(url);
@@ -227,6 +239,7 @@ async function obtenerImagenDeZara(url) {
     return null;
   }
 }
+  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
