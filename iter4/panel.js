@@ -100,7 +100,7 @@ function createProductElement(product, isFavorite = false) {
 
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
-  productImage.src = "logo_zara.png";
+  productImage.src = "./logos/logo_zara.png";
 
   productImage.alt = product.name;
   productDiv.appendChild(productImage);

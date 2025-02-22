@@ -21,9 +21,9 @@
     }
   ],
   "icons": {
-    "16": "logo_no_text_white.png",
-    "48": "logo_no_text_white.png",
-    "128": "logo_no_text_white.png"
+    "16": "./logos/logo_no_text_white.png",
+    "48": "./logos/logo_no_text_white.png",
+    "128": "./logos/logo_no_text_white.png"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
