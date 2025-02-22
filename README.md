@@ -1,7 +1,6 @@
 # Pickture
-Pickture is a web extension used to search similar clothes from images on the internet. The extension communicates with an Inditex API answering with clothes similars to the ones on the picture but from Inditex brands, allowing you to go directly to the product with just one click, or save it for later. Besides, you can also look for clothes just by typing what are you looking for thanks to another Inditex Tech API.
-
-
+Pickture is a web extension used to search similar clothes from images on the internet. The extension answers with clothes similars to the ones on the picture but from Inditex brands, allowing you to go directly to the product with just one click, or save it for later. Besides, you can also look for clothes just by typing what are you looking for.
+All this thanks tho the [Inditex Tech Open Source APIs]{https://developer.inditex.com}
 
 ## Licenses
 - Icons (https://fonts.google.com/icons) -> Open Source
@@ -11,3 +10,4 @@ Pickture is a web extension used to search similar clothes from images on the in
 - Logo (https://inkscape.app/es/) -> Licencia Pública General de GNU?
 
 ## Deployment
+Just download this repo, go to chrome://extensions/ in your chrome navigator and add this folder clicking in the "Load unpaked". Just like this you will be able to try our extension.
