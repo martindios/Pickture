@@ -78,7 +78,7 @@ export function createProductElement(product, isFavorite = false) {
 
   const facebookIcon = document.createElement('a');
   facebookIcon.className = 'social-icon facebook';
-  facebookIcon.innerHTML = '<i class="fab fa-facebook-f"></i>';
+  facebookIcon.innerHTML = '<img id="logoFacebook" src="./logos/facebook.png" alt="Logo de facebook">';
   facebookIcon.title = "Compartir en Facebook";
   facebookIcon.addEventListener('click', (e) => {
     e.preventDefault();
@@ -88,7 +88,7 @@ export function createProductElement(product, isFavorite = false) {
 
   const twitterIcon = document.createElement('a');
   twitterIcon.className = 'social-icon twitter';
-  twitterIcon.innerHTML = '<i class="fab fa-twitter"></i>';
+  twitterIcon.innerHTML = '<img id="logoTwitter" src="./logos/twitter.png" alt="Logo de twitter">';
   twitterIcon.title = "Compartir en Twitter";
   twitterIcon.addEventListener('click', (e) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ export function createProductElement(product, isFavorite = false) {
 
   const instagramIcon = document.createElement('a');
   instagramIcon.className = 'social-icon instagram';
-  instagramIcon.innerHTML = '<i class="fab fa-instagram"></i>';
+  instagramIcon.innerHTML = '<img id="logoWhas" src="./logos/whatsapp.png" alt="Logo de whatsapp">';
   instagramIcon.title = "Compartir en Instagram";
   instagramIcon.addEventListener('click', (e) => {
     e.preventDefault();
@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
     favoritesLink.classList.remove('active-link');
     inditexLink.classList.remove('active-link');
   }
-
 
   if (webLink) {
     webLink.addEventListener('click', (e) => {
