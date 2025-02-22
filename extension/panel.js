@@ -47,29 +47,39 @@ export function createProductElement(product, isFavorite = false) {
 
   const starIcon = document.createElement('img');
   starIcon.className = 'star-icon';
-  starIcon.src = isFavorite ? './logos/doubleStar.png' : './logos/star.png';
+  starIcon.src = isFavorite 
+    ? (document.body.classList.contains('dark-mode') ? './logos/doubleStarW.png' : './logos/doubleStar.png')
+    : (document.body.classList.contains('dark-mode') ? './logos/starW.png' : './logos/star.png');
   starIcon.style.cursor = 'pointer';
+  
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
-      starIcon.src = './logos/star.png';
+      starIcon.src = document.body.classList.contains('dark-mode')
+        ? './logos/starW.png'
+        : './logos/star.png';
       rePrint();
     } else {
       addToFavorites(product);
-      starIcon.src = './logos/doubleStar.png';
+      starIcon.src = document.body.classList.contains('dark-mode')
+        ? './logos/doubleStarW.png'
+        : './logos/doubleStar.png';
       rePrint();
     }
   });
+  
+  
   buttonContainer.appendChild(starIcon);
 
   const buyIcon = document.createElement('img');
   buyIcon.className = 'buy-icon';
-  buyIcon.src = './logos/cart.png';
+  buyIcon.src = document.body.classList.contains('dark-mode') ? './logos/cartW.png' : './logos/cart.png';
   buyIcon.style.cursor = 'pointer';
   buyIcon.addEventListener('click', () => {
     window.open(product.link, '_blank');
   });
   buttonContainer.appendChild(buyIcon);
+  
   productInfo.appendChild(buttonContainer);
 
   // Sección de compartir en redes sociales
@@ -283,6 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Si se desactiva el modo oscuro, se muestra el logo de darkMode
       darkModeImg.src = './logos/darkMode.png';
     }
+
+    if (document.body.classList.contains('dark-mode')) {
+      darkModeImg.src = './logos/lightMode.png';
+    } else {
+      darkModeImg.src = './logos/darkMode.png';
+    }
+    // Re-renderiza la lista de productos para actualizar los iconos de favoritos
+    rePrint();
   });
   
 
