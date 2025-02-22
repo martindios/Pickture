@@ -11,7 +11,7 @@ export function getQueryParam(param) {
 export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
   const productList = document.getElementById('productList');
   
-  // Mostrar el spinner mientras se espera la respuesta de la API
+  // Mostrar el loader mientras se espera la respuesta de la API
   productList.innerHTML = "<div class='loader'></div>";
 
   const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
@@ -93,9 +93,7 @@ function createProductElement(product, isFavorite = false) {
 
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
-  obtenerImagenDeZara(product.link).then(url => {
-    productImage.src = url || "logo_zara.png";
-  });
+  productImage.src = "logo_zara.png";
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
@@ -106,9 +104,6 @@ function createProductElement(product, isFavorite = false) {
   productName.className = 'product-name';
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
-
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.className = 'buttons-container';
 
   // Dentro de createProductElement, en la sección de precio:
   const productPrice = document.createElement('div');
@@ -125,18 +120,13 @@ function createProductElement(product, isFavorite = false) {
 
   productInfo.appendChild(productPrice);
 
-  const buyIcon = document.createElement('span');
-  buyIcon.className = 'buy-icon';
-  buyIcon.innerHTML = '🛒';
-  buyIcon.style.cursor = 'pointer';
-  buyIcon.title = "Comprar producto";
-  buyIcon.addEventListener('click', () => {
-    window.open(product.link, '_blank');
-  });
-  buttonsContainer.appendChild(buyIcon);
+  const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'button-container';
 
-  productInfo.appendChild(buttonsContainer);
-
+  const starIcon = document.createElement('span');
+  starIcon.className = 'star-icon';
+  starIcon.innerHTML = isFavorite ? '🌟' : '⭐';
+  starIcon.style.cursor = 'pointer';
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
@@ -146,7 +136,19 @@ function createProductElement(product, isFavorite = false) {
       starIcon.innerHTML = '🌟';
     }
   });
-  productInfo.appendChild(starIcon);
+  buttonContainer.appendChild(starIcon);
+
+  const buyIcon = document.createElement('span');
+  buyIcon.className = 'buy-icon';
+  buyIcon.innerHTML = '🛒';
+  buyIcon.style.cursor = 'pointer';
+  buyIcon.title = "Comprar producto";
+  buyIcon.addEventListener('click', () => {
+    window.open(product.link, '_blank');
+  });
+  buttonContainer.appendChild(buyIcon);
+
+  productInfo.appendChild(buttonContainer);
 
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
@@ -184,15 +186,15 @@ function createProductElement(product, isFavorite = false) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
+
   return productDiv;
 }
 
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
   const productList = document.getElementById('productList');
-
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
-  
+
   if (favorites.length > 0) {
     favorites.forEach(product => {
       const productElement = createProductElement(product, true);
@@ -227,6 +229,7 @@ function showInditexScreen() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
+  
   if (imgUrl) {
     callApiWithImage(imgUrl);
   }
