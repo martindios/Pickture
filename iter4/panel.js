@@ -5,9 +5,6 @@ let favorites = [];
 function addToFavorites(product) {
   favorites.push(product);
   console.log("Producto añadido a favoritos:", product);
-  //alert(`"${product.name}" añadido a favoritos.`);
-  
-  // Cambiar el icono del producto añadido a favoritos
   const productElements = document.querySelectorAll('.product');
   productElements.forEach(element => {
     const productNameElement = element.querySelector('.product-name');
@@ -23,7 +20,6 @@ function addToFavorites(product) {
 // Función para compartir en redes sociales
 function shareOnSocialMedia(url, platform) {
   let shareUrl = "";
-
   switch (platform) {
     case "facebook":
       shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
@@ -37,7 +33,6 @@ function shareOnSocialMedia(url, platform) {
     default:
       return;
   }
-
   window.open(shareUrl, "_blank", "width=600,height=400");
 }
 
@@ -62,17 +57,27 @@ function createProductElement(product) {
   productName.textContent = product.name || "Nombre no disponible";
   productInfo.appendChild(productName);
 
-  const productPrice = document.createElement('div');
-  productPrice.className = 'product-price';
-  productPrice.textContent = product.price.value.current ? `€${product.price.value.current}` : "Precio no disponible";
-  productInfo.appendChild(productPrice);
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.className = 'buttons-container';
 
   const starIcon = document.createElement('span');
   starIcon.className = 'star-icon';
   starIcon.innerHTML = '⭐';
   starIcon.style.cursor = 'pointer';
   starIcon.addEventListener('click', () => addToFavorites(product));
-  productInfo.appendChild(starIcon);
+  buttonsContainer.appendChild(starIcon);
+
+  const buyIcon = document.createElement('span');
+  buyIcon.className = 'buy-icon';
+  buyIcon.innerHTML = '🛒';
+  buyIcon.style.cursor = 'pointer';
+  buyIcon.title = "Comprar producto";
+  buyIcon.addEventListener('click', () => {
+    window.open(product.link, '_blank');
+  });
+  buttonsContainer.appendChild(buyIcon);
+
+  productInfo.appendChild(buttonsContainer);
 
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
@@ -110,22 +115,13 @@ function createProductElement(product) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
-  const productLinkButton = document.createElement('button');
-  productLinkButton.className = 'product-link-button';
-  productLinkButton.textContent = 'Comprar producto';
-  productLinkButton.addEventListener('click', () => {
-    window.open(product.link, '_blank');
-  });
-  productDiv.appendChild(productLinkButton);
-
   return productDiv;
 }
 
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
-
+  productList.innerHTML = "";
   if (favorites.length > 0) {
     favorites.forEach(product => {
       const productElement = createProductElement(product);
@@ -168,7 +164,7 @@ function callApiWithImage(imageUrl) {
     method: "POST",
     headers: {
       "Authorization": "Basic " + btoa(username + ":" + password),
-        "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
     body: tokenData.toString()
   })
@@ -197,18 +193,12 @@ function callApiWithImage(imageUrl) {
     return response.json();
   })
   .then(json => {
-    // Obtenemos el array de productos
     const products = Array.isArray(json) ? json : json.products;
-
-    // Filtramos para eliminar duplicados según 'id' y 'name'
     const uniqueProducts = products.filter((product, index, self) =>
-    index === self.findIndex(p => p.id === product.id && p.name === product.name)
+      index === self.findIndex(p => p.id === product.id && p.name === product.name)
     );
-
     const productList = document.getElementById('productList');
-    productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
-
-    // Comprobar duplicados
+    productList.innerHTML = "";
     if (uniqueProducts && uniqueProducts.length > 0) {
       uniqueProducts.forEach(product => {
         const productElement = createProductElement(product);
@@ -225,8 +215,7 @@ function callApiWithImage(imageUrl) {
   });
 }
 
-
-// Función para mostrar imágenes del producto (No funciona)
+// Función para obtener la imagen del producto (No funciona)
 async function obtenerImagenDeZara(url) {
   try {
     const response = await fetch(url);
@@ -250,7 +239,6 @@ async function obtenerImagenDeZara(url) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
-  
   if (imgUrl) {
     callApiWithImage(imgUrl);
   }
