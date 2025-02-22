@@ -3,456 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inditex Chrome Extension</title>
+    <title>Pickture Extension</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            color: #e0e0e0;
-            overflow-x: hidden;
-            font-family: 'Cinzel', serif;
-            background: #1c2526;
-        }
-
-        /* Personalización del scroll */
-        body::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        body::-webkit-scrollbar-track {
-            background: #1c2526;
-        }
-
-        body::-webkit-scrollbar-thumb {
-            background: #548774;
-            border-radius: 5px;
-        }
-
-        body::-webkit-scrollbar-thumb:hover {
-            background: #42685a;
-        }
-
-        body {
-            scrollbar-width: thin;
-            scrollbar-color: #548774 #1c2526;
-        }
-
-        /* Header */
-        header {
-            background: rgba(20, 20, 20, 0.9);
-            padding: 20px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            max-width: 150px; /* Tamaño del logo, ajustable */
-            margin-left: 20px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        nav {
-            display: flex;
-            justify-content: flex-end;
-            max-width: 1200px;
-            margin-right: 20px;
-        }
-
-        nav a {
-            color: #e0e0e0;
-            text-decoration: none;
-            margin-left: 40px;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            color: #548774;
-        }
-
-        /* Fondo en movimiento con efecto parallax */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background: linear-gradient(45deg, #1c2526, #2d3839, #1c2526);
-            background-size: 200% 200%;
-            animation: moveBackground 20s ease infinite;
-            z-index: -1;
-            transform: translateY(0);
-            transition: transform 0.1s ease-out;
-        }
-
-        @keyframes moveBackground {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-
-        /* Secciones */
-        section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 20px;
-            opacity: 1;
-            transition: opacity 0.6s ease, transform 0.6s ease, scale 0.6s ease;
-        }
-
-        /* Descargar (Hero Section) */
-        #descargar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
-            padding-top: 150px;
-        }
-
-        .text-content {
-            max-width: 50%;
-        }
-
-        .text-content h1 {
-            font-size: 54px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            color: #dfe5df;
-            font-weight: 700;
-        }
-
-        .text-content p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            color: #b0b0b0;
-            letter-spacing: 0.5px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background: #dfe5df;
-            color: #1e2236;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .download-btn:hover {
-            background: #c8d1c8;
-            transform: scale(1.05);
-        }
-
-        .image-content img {
-            max-width: 350px;
-            border-radius: 8px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        /* Información */
-        #informacion {
-            text-align: center;
-        }
-
-        #informacion h2 {
-            font-size: 36px;
-            color: #dfe5df;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-
-        #informacion ul {
-            list-style: none;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        #informacion ul li {
-            font-size: 18px;
-            color: #b0b0b0;
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 30px;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        #informacion ul li:before {
-            content: "•";
-            color: #548774;
-            font-size: 24px;
-            position: absolute;
-            left: 0;
-        }
-
-        /* Estadísticas */
-        #extension {
-            text-align: center;
-        }
-
-        #extension h2 {
-            font-size: 36px;
-            color: #dfe5df;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .stat {
-            text-align: center;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .stat h3 {
-            font-size: 48px;
-            color: #548774;
-            margin-bottom: 10px;
-        }
-
-        .stat p {
-            font-size: 18px;
-            color: #b0b0b0;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(20, 20, 20, 0.95);
-            padding: 40px 20px;
-            text-align: center;
-            color: #b0b0b0;
-            font-size: 14px;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-logo {
-            max-width: 100px; /* Tamaño del logo, ajustable */
-            margin-bottom: 20px;
-        }
-
-        .footer-logo img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        footer p {
-            margin-bottom: 10px;
-        }
-
-        footer a {
-            color: #548774;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #dfe5df;
-        }
-
-        /* Clases para animaciones */
-        .fade-out {
-            opacity: 0;
-        }
-
-        .slide-up {
-            transform: translateY(-50px);
-        }
-
-        .slide-down {
-            transform: translateY(50px);
-        }
-
-        .scale-down {
-            transform: scale(0.95);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            #descargar {
-                flex-direction: column;
-                text-align: center;
-                padding-top: 120px;
-            }
-
-            .text-content {
-                max-width: 100%;
-                margin-bottom: 40px;
-            }
-
-            .text-content h1 {
-                font-size: 36px;
-            }
-
-            .image-content img {
-                max-width: 100%;
-            }
-
-            nav {
-                justify-content: center;
-                margin-right: 0;
-            }
-
-            nav a {
-                margin: 0 20px;
-            }
-
-            .stats-container {
-                flex-direction: column;
-            }
-
-            .stat {
-                margin-bottom: 30px;
-            }
-
-            .logo, .footer-logo {
-                max-width: 80px; /* Reducir tamaño en móviles */
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="logo_no_text_color.png" alt="Inditex Logo">
+            <img src="logo_no_text_white.png" alt="Pickture Logo">
         </div>
         <nav>
-            <a href="#descargar">Descargar</a>
-            <a href="#informacion">Información</a>
-            <a href="#extension">Estadísticas</a>
+            <a href="#download">Download</a>
+            <a href="#information">Information</a>
+            <a href="#technology">Technology</a>
         </nav>
     </header>
 
-    <div class="background"></div>
-
-    <section id="descargar">
+    <section id="download">
         <div class="text-content">
-            <h1>Estás a un Click del Outfit de tus Sueños</h1>
-            <p>Transforma tu experiencia digital con nuestra extensión para Chrome. Sofisticación y estilo al alcance de un clic.</p>
-            <a href="#" class="download-btn">Descargar Ahora</a>
+            <h1>YOU are one click away from the OUTFIT of YOUR dreams</h1>
+            <p>Transform your digital experience with our browser extension. Sophistication and style within one click.</p>
+            <a href="https://github.com/martindios/hackUDC" class="download-btn">Download Now</a>
         </div>
         <div class="image-content">
-            <img src="IMG_8049.jpg" alt="Inditex Extension">
+            <img src="picture_landing.jpg" alt="Pickture Landing Logo">
         </div>
     </section>
 
-    <section id="informacion">
-        <h2>Información</h2>
+    <section id="information">
+        <h2>Information</h2>
         <ul>
-            <li>Personaliza tu navegación con recomendaciones de moda exclusivas de Inditex.</li>
-            <li>Accede a las últimas tendencias directamente desde tu navegador.</li>
-            <li>Guarda tus outfits favoritos con un solo clic.</li>
-            <li>Compatible con todas las marcas de Inditex: Zara, Massimo Dutti, Pull&Bear y más.</li>
-            <li>Diseño intuitivo y elegante para una experiencia fluida.</li>
+            <li>Personalize your browsing experience with exclusive fashion recommendations from Inditex.</li>
+            <li>Access the latest trends directly from your browser.</li>
+            <li>Save your favorite outfits with just one click.</li>
+            <li>Compatible with every Inditex brand: Zara, Massimo Dutti, Pull&Bear, and more.</li>
+            <li>Intuitive and elegant design for a seamless experience.</li>
         </ul>
     </section>
 
-    <section id="extension">
-        <h2>Estadísticas</h2>
-        <div class="stats-container">
-            <div class="stat">
-                <h3>50K+</h3>
-                <p>Descargas en el primer mes</p>
+    <section id="technology">
+        <h2>Technology</h2>
+        <div class="tech-container">
+            <div class="tech-box">
+                <h3>Visual Search</h3>
+                <p>Provide a URL to find products similar to any clothing items in the image. Get full product names, IDs, prices, discounts, and direct links to the brand's web store.</p>
             </div>
-            <div class="stat">
-                <h3>4.8/5</h3>
-                <p>Calificación promedio</p>
+            <div class="tech-box">
+                <h3>Product Search</h3>
+                <p>Find the products you're looking for across our brands. Access full product names, IDs, prices, discounts, and direct links, with easy filtering and pagination.</p>
             </div>
-            <div class="stat">
-                <h3>10M+</h3>
-                <p>Outfits guardados</p>
-            </div>
+        </div>
+        <div class="tech-rectangle">
+            <p>Built with modern technologies like JavaScript, CSS, and browser APIs, our extension blends elegant design with advanced functionality for the best possible experience.</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-logo">
-            <img src="logo_no_text_color.png" alt="Inditex Logo">
+            <img src="logo_no_text_white.png" alt="Pickture Logo">
         </div>
-        <p>© 2025 Inditex Chrome Extension. Todos los derechos reservados.</p>
-        <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Uso</a> | <a href="#">Contacto</a></p>
+        <p>© 2025 Pickture Extension. All rights reserved.</p>
+        <p><a href="https://github.com/martindios/hackUDC/blob/main/CODE_OF_CONDUCT.md">Conduct code</a> | <a href="https://github.com/martindios/hackUDC/blob/main/CONTRIBUTING.md">Contributing</a> | <a href="mailto:picture25@gmail.com">Contact</a></p>
     </footer>
 
-    <script>
-        // Detectar el scroll y aplicar animaciones
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const windowHeight = window.innerHeight;
-            const scrollPosition = window.scrollY;
-
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                const sectionBottom = section.getBoundingClientRect().bottom;
-
-                // Imagen en la sección de descargar
-                const img = section.querySelector('.image-content img');
-                if (img && sectionTop < windowHeight * 0.5 && sectionBottom > 0) {
-                    img.classList.remove('fade-out');
-                    img.classList.remove('slide-up');
-                } else if (img) {
-                    img.classList.add('fade-out');
-                    img.classList.add('slide-up');
-                }
-
-                // Texto en todas las secciones
-                const textElements = section.querySelectorAll('h1, p, .download-btn, ul li, .stat');
-                textElements.forEach(el => {
-                    if (sectionTop < windowHeight * 0.7 && sectionBottom > 0) {
-                        el.classList.remove('fade-out');
-                        el.classList.remove('slide-up');
-                        el.classList.remove('slide-down');
-                        el.classList.remove('scale-down');
-                    } else if (sectionTop >= windowHeight * 0.7) {
-                        el.classList.add('fade-out');
-                        el.classList.add('slide-down');
-                        el.classList.add('scale-down');
-                    } else if (sectionBottom <= 0) {
-                        el.classList.add('fade-out');
-                        el.classList.add('slide-up');
-                        el.classList.add('scale-down');
-                    }
-                });
-            });
-        });
-
-        // Ejecutar la función al cargar la página para establecer el estado inicial
-        window.dispatchEvent(new Event('scroll'));
-    </script>
+    <script src="main.js" defer></script>
 </body>
 </html>
