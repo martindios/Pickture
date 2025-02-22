@@ -1,32 +1,39 @@
-import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
+// Imports
+import { addToFavorites, removeFromFavorites, favoritesList, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
+
+// Variables
 export let productsList = [];
 let currentScreen = 'web';
 
 
-// Función para crear un elemento de producto
+// Function to show a product
 export function createProductElement(product, isFavorite = false) {
 
+  // Product container
   const productDiv = document.createElement('div');
   productDiv.className = 'product';
 
+  // Image container
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
-  productImage.src = "./logos/logo_zara.png";
+  productImage.src = "./logos/logo_zara.png"; // Change
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
+  // Product info container
   const productInfo = document.createElement('div');
   productInfo.className = 'product-info';
 
+  // Name container
   const productName = document.createElement('div');
   productName.className = 'product-name';
-  productName.textContent = product.name || "Nombre no disponible";
+  productName.textContent = product.name || "Name not available";
   productInfo.appendChild(productName);
 
-  // Sección de precio
+  // Price container
   const productPrice = document.createElement('div');
   productPrice.className = 'product-price';
   if (product.price && product.price.value && product.price.value.current && product.price.value.original) {
@@ -37,15 +44,15 @@ export function createProductElement(product, isFavorite = false) {
   } else if (product.price && product.price.value && product.price.value.current) {
     productPrice.textContent = `€${product.price.value.current}`;
   } else {
-    productPrice.textContent = "Precio no disponible";
+    productPrice.textContent = "Price not available";
   }
-  
   productInfo.appendChild(productPrice);
 
-  // Contenedor de botones
+  // Buttons container
   const buttonContainer = document.createElement('div');
   buttonContainer.className = 'button-container';
 
+  // Star icon
   const starIcon = document.createElement('img');
   starIcon.className = 'star-icon';
   starIcon.src = isFavorite 
@@ -68,10 +75,9 @@ export function createProductElement(product, isFavorite = false) {
       rePrint();
     }
   });
-  
-  
   buttonContainer.appendChild(starIcon);
 
+  // Buy icon
   const buyIcon = document.createElement('img');
   buyIcon.className = 'buy-icon';
   buyIcon.src = document.body.classList.contains('dark-mode') ? './logos/cartW.png' : './logos/cart.png';
@@ -83,48 +89,48 @@ export function createProductElement(product, isFavorite = false) {
   
   productInfo.appendChild(buttonContainer);
 
-  // Sección de compartir en redes sociales
+  // Social Media container
   const socialSharing = document.createElement('div');
   socialSharing.className = 'social-sharing';
 
-// Dentro de createProductElement, antes de crear los iconos:
-const isDarkMode = document.body.classList.contains('dark-mode');
-const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
-const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
-const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsappB.png';
+  // Check if dark mode is active and change the icons
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
+  const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
+  const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsappB.png';
 
-// Icono de Facebook
-const facebookIcon = document.createElement('a');
-facebookIcon.className = 'social-icon facebook';
-facebookIcon.innerHTML = `<img id="logoFacebook" src="${facebookSrc}" alt="Logo de Facebook">`;
-facebookIcon.title = "Compartir en Facebook";
-facebookIcon.addEventListener('click', (e) => {
-  e.preventDefault();
-  shareOnSocialMedia(product.url || "#", "facebook");
-});
-socialSharing.appendChild(facebookIcon);
+  // Facebook icon
+  const facebookIcon = document.createElement('a');
+  facebookIcon.className = 'social-icon facebook';
+  facebookIcon.innerHTML = `<img id="logoFacebook" src="${facebookSrc}" alt="Facebook logo">`;
+  facebookIcon.title = "Share on Facebook";
+  facebookIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "facebook");
+  });
+  socialSharing.appendChild(facebookIcon);
 
-// Icono de Twitter
-const twitterIcon = document.createElement('a');
-twitterIcon.className = 'social-icon twitter';
-twitterIcon.innerHTML = `<img id="logoTwitter" src="${twitterSrc}" alt="Logo de Twitter">`;
-twitterIcon.title = "Compartir en Twitter";
-twitterIcon.addEventListener('click', (e) => {
-  e.preventDefault();
-  shareOnSocialMedia(product.url || "#", "twitter");
-});
-socialSharing.appendChild(twitterIcon);
+  // Twitter icon
+  const twitterIcon = document.createElement('a');
+  twitterIcon.className = 'social-icon twitter';
+  twitterIcon.innerHTML = `<img id="logoTwitter" src="${twitterSrc}" alt="Twitter logo">`;
+  twitterIcon.title = "Share on Twitter";
+  twitterIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "twitter");
+  });
+  socialSharing.appendChild(twitterIcon);
 
-// Icono de WhatsApp
-const whatsappIcon = document.createElement('a');
-whatsappIcon.className = 'social-icon whatsapp';
-whatsappIcon.innerHTML = `<img id="logoWhas" src="${whatsappSrc}" alt="Logo de WhatsApp">`;
-whatsappIcon.title = "Compartir en WhatsApp";
-whatsappIcon.addEventListener('click', (e) => {
-  e.preventDefault();
-  shareOnSocialMedia(product.url || "#", "whatsapp");
-});
-socialSharing.appendChild(whatsappIcon);
+  // WhatsApp icon
+  const whatsappIcon = document.createElement('a');
+  whatsappIcon.className = 'social-icon whatsapp';
+  whatsappIcon.innerHTML = `<img id="logoWhas" src="${whatsappSrc}" alt="WhatsApp logo">`;
+  whatsappIcon.title = "Share on WhatsApp";
+  whatsappIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    shareOnSocialMedia(product.url || "#", "whatsapp");
+  });
+  socialSharing.appendChild(whatsappIcon);
 
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
@@ -132,91 +138,100 @@ socialSharing.appendChild(whatsappIcon);
   return productDiv;
 }
 
-// Función para reprintear
+
+// Function to reprint lists
 function rePrint(){
   if (currentScreen === 'web') {
-    showWebScreen();
+    showImageScreen();
   } else if (currentScreen === 'favorites') {
     showFavoritesScreen();
   }
 }
 
-// Función para mostrar la pantalla de Favoritos
+
+// Show the favorites screen
 function showFavoritesScreen() {
   currentScreen = 'favorites';
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+  // Clear the list before adding elements
+  productList.innerHTML = "";
 
+  // Update the favorites list and show the products
   updateFavorites().then(() => {
-    if (favorites.length > 0) {
-      favorites.forEach(product => {
+    if (favoritesList.length > 0) {
+      favoritesList.forEach(product => {
         const productElement = createProductElement(product, true);
         productList.appendChild(productElement);
       });
     } else {
-      productList.innerHTML = "<h3>No se encontraron productos.</h3>";
+      productList.innerHTML = "<p>No products found.</p>";
     }
   }).catch(error => {
-    console.error('Error al actualizar los favoritos:', error);
+    console.error('Error updating the favorites list:', error);
     productList.innerHTML = `<p>Error: ${error.message}</p>`;
   });
 }
 
-// Función para mostrar la pantalla de Web
-function showWebScreen() {
+
+// Show the image screen
+function showImageScreen() {
   currentScreen = 'web';
   const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
+  // Clear the list before adding elements
+  productList.innerHTML = ""; 
 
+  // Show the products checking if they are on the favorites list
   if (productsList.length > 0) {
     productsList.forEach(product => {
-      const productElement = createProductElement(product, favorites.some(fav => fav.id === product.id));
+      const productElement = createProductElement(product, favoritesList.some(fav => fav.id === product.id));
       productList.appendChild(productElement);
     });
   } else {
-    productList.innerHTML = "<p>No se encontraron productitos.</p>";
+    productList.innerHTML = "<p>No products found.</p>";
   }
 }
 
-// Función para mostrar la pantalla de Inditex con inputs de búsqueda
-function showInditexScreen() {
-  currentScreen = 'inditex';
-  const productList = document.getElementById('productList');
-  productList.innerHTML = ""; // Limpiar contenido previo
 
-  // Crear un contenedor para los inputs
+// Show the text screen
+function showTextScreen() {
+  currentScreen = 'text';
+  const productList = document.getElementById('productList');
+  // Clear the list before adding elements
+  productList.innerHTML = "";
+
+  // Input container
   const container = document.createElement('div');
   container.className = 'inditex-form-container';
 
-  // Crear un contenedor para los inputs centrados
+  // Form container
   const formContainer = document.createElement('div');
   formContainer.className = 'form-inputs';
 
-  // Input para el término de búsqueda
+  // Text input
   const queryLabel = document.createElement('label');
-  queryLabel.textContent = 'Buscar:';
+  queryLabel.textContent = 'Search:';
   queryLabel.htmlFor = 'queryInput';
   queryLabel.classList.add('large-label');
 
   const queryInput = document.createElement('input');
   queryInput.type = 'text';
   queryInput.id = 'queryInput';
-  queryInput.placeholder = 'Ingrese término de búsqueda';
+  queryInput.placeholder = 'Enter search';
 
-  // Input opcional para la marca
+  // Optional brand input
   const brandLabel = document.createElement('label');
-  brandLabel.textContent = 'Marca (opcional):';
+  brandLabel.textContent = 'Brand (optional):';
   brandLabel.htmlFor = 'brandInput';
   brandLabel.classList.add('large-label');
 
   const brandInput = document.createElement('input');
   brandInput.type = 'text';
   brandInput.id = 'brandInput';
-  brandInput.placeholder = 'Ingrese la marca';
+  brandInput.placeholder = 'Enter the brand';
 
-  // Botón para disparar la búsqueda
+  // Enter button
   const searchButton = document.createElement('button');
-  searchButton.textContent = 'Buscar';
+  searchButton.textContent = 'Search';
   searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const queryText = queryInput.value.trim();
@@ -224,11 +239,11 @@ function showInditexScreen() {
     if (queryText) {
       callApiWithText(queryText, brand);
     } else {
-      productList.innerHTML = "<p>Ingrese un término de búsqueda</p>";
+      productList.innerHTML = "<p>Enter search</p>";
     }
   });
 
-  // Añadir los elementos al contenedor de inputs
+  // Add the elements to the containers
   formContainer.appendChild(queryLabel);
   formContainer.appendChild(queryInput);
   formContainer.appendChild(brandLabel);
@@ -239,35 +254,41 @@ function showInditexScreen() {
   productList.appendChild(container);
 }
 
+
+// Listens to events
 document.addEventListener('DOMContentLoaded', () => {
   const imgUrl = getQueryParam('img');
   
+  // Calls the API with the param
   if (imgUrl) {
     callApiWithImage(imgUrl);
   }
 
+  // Waits for the closeButton to be clicked
   const closeButton = document.getElementById('closeButton');
   closeButton.addEventListener('click', () => {
     window.parent.postMessage({ action: 'closePanel' }, '*');
   });
 
-  const webLink = document.getElementById('webLink');
+  // Obtains the links
+  const imageLink = document.getElementById('imageLink');
   const favoritesLink = document.getElementById('favoritesLink');
-  const inditexLink = document.getElementById('inditexLink');
+  const textLink = document.getElementById('textLink');
 
   // Function to remove active class from all links
   function removeActiveClass() {
-    webLink.classList.remove('active-link');
+    imageLink.classList.remove('active-link');
     favoritesLink.classList.remove('active-link');
-    inditexLink.classList.remove('active-link');
+    textLink.classList.remove('active-link');
   }
 
-  if (webLink) {
-    webLink.addEventListener('click', (e) => {
+  // Asigns the active link
+  if (imageLink) {
+    imageLink.addEventListener('click', (e) => {
       e.preventDefault();
       removeActiveClass();
-      webLink.classList.add('active-link');
-      showWebScreen();
+      imageLink.classList.add('active-link');
+      showImageScreen();
     });
   }
 
@@ -280,21 +301,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (inditexLink) {
-    inditexLink.addEventListener('click', (e) => {
+  if (textLink) {
+    textLink.addEventListener('click', (e) => {
       e.preventDefault();
       removeActiveClass();
-      inditexLink.classList.add('active-link');
-      showInditexScreen();
+      textLink.classList.add('active-link');
+      showTextScreen();
     });
   }
 
-
+  // Dark mode constants
   const darkModeToggle = document.getElementById('darkModeToggle');
   const darkModeImg = document.getElementById('darkModeImg');
   const logo = document.getElementById('logo');
 
-  
+  // Waits for the day/night mode to change
   darkModeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     if (document.body.classList.contains('dark-mode')) {
@@ -319,9 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
       logo.src = './logos/logo_no_text_black.png';
     }
 
-    // Re-renderiza la lista de productos para actualizar los iconos de favoritos
+    // Renders the products list to update the view
     rePrint();
   });
-  
-
 });

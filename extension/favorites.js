@@ -47,24 +47,25 @@ export function removeFromFavorites(product) {
     }
   });
 
-  // Elimina el producto de la base de datos
+  // Removes the product from the favorites database
   try {
-    eliminarDatos(product.id);
-    console.log('Producto eliminado de la base de datos:', product);
+    deleteData(product.id);
+    console.log('Product deleted from the database:', product);
   }
   catch (error) {
-    console.error('Error al eliminar producto de la base de datos:', error);
+    console.error('Error deleting the product from the database:', error);
   }
 }
 
-export async function updateFavorites() {
 
+// Get all favorites products
+export async function updateFavorites() {
  try {
-    favorites = await obtenerTodosLosDatos();
-    console.log('Favoritos actualizados:', favorites);
+    favoritesList = await obtainAllData();
+    console.log('Favorites list updated:', favoritesList);
   }
   catch (error) {
-    console.error('Error al actualizar favoritos:', error);
+    console.error('Error updating the favorites list:', error);
  }
  
 }
