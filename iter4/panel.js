@@ -60,16 +60,42 @@ function callApiWithImage(imageUrl) {
 
       if (products && products.length > 0) {
         products.forEach(product => {
-          const li = document.createElement('li');
-          li.textContent = product.name; // Se muestra el campo "name"
-          productList.appendChild(li);
+          // Crear un div para cada producto
+          const productDiv = document.createElement('div');
+          productDiv.className = 'product';
+
+          // Espacio para la foto (usamos una imagen de ejemplo si no hay URL)
+          const productImage = document.createElement('img');
+          productImage.className = 'product-image';
+          productImage.src = product.imageUrl || "https://via.placeholder.com/80"; // Imagen de ejemplo si no hay URL
+          productImage.alt = product.name;
+          productDiv.appendChild(productImage);
+
+          // Información del producto (nombre y precio)
+          const productInfo = document.createElement('div');
+          productInfo.className = 'product-info';
+
+          const productName = document.createElement('div');
+          productName.className = 'product-name';
+          productName.textContent = product.name || "Nombre no disponible";
+          productInfo.appendChild(productName);
+
+          const productPrice = document.createElement('div');
+          productPrice.className = 'product-price';
+          productPrice.textContent = product.price ? `€${product.price}` : "Precio no disponible";
+          productInfo.appendChild(productPrice);
+
+          productDiv.appendChild(productInfo);
+          productList.appendChild(productDiv);
         });
       } else {
-        productList.innerHTML = "<li>No se encontraron productos.</li>";
+        productList.innerHTML = "<p>No se encontraron productos.</p>";
       }
     })
     .catch(error => {
       console.error("Error:", error);
+      const productList = document.getElementById('productList');
+      productList.innerHTML = `<p>Error: ${error.message}</p>`;
     });
 }
 
@@ -98,4 +124,3 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('¡Gracias por tu compra!');
   });
 });
-

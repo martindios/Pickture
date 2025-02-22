@@ -48,24 +48,23 @@
     .content {
       flex: 1;
       padding: 10px;
-      overflow-y: auto; /* Scroll vertical */
-      overflow-x: hidden; /* Oculta el scroll horizontal */
-      scrollbar-width: thin; /* Scroll fino (solo en navegadores compatibles) */
-      scrollbar-color: #888 #f1f1f1; /* Color del scroll */
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #888 #f1f1f1;
     }
-    /* Estilos para el scroll en navegadores WebKit (Chrome, Safari) */
     .content::-webkit-scrollbar {
-      width: 8px; /* Ancho del scroll */
+      width: 8px;
     }
     .content::-webkit-scrollbar-track {
-      background: #f1f1f1; /* Color de fondo del track */
+      background: #f1f1f1;
     }
     .content::-webkit-scrollbar-thumb {
-      background: #888; /* Color del thumb */
-      border-radius: 4px; /* Bordes redondeados */
+      background: #888;
+      border-radius: 4px;
     }
     .content::-webkit-scrollbar-thumb:hover {
-      background: #555; /* Color del thumb al pasar el mouse */
+      background: #555;
     }
     .url-container {
       margin-bottom: 20px;
@@ -82,7 +81,7 @@
       border-radius: 4px;
       background-color: #fff;
       word-wrap: break-word;
-      overflow-wrap: break-word; /* Evita el desbordamiento horizontal */
+      overflow-wrap: break-word;
     }
     #buyButton {
       width: 100%;
@@ -97,6 +96,34 @@
     #buyButton:hover {
       background-color: #45a049;
     }
+    .product {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    .product-image {
+      width: 80px;
+      height: 80px;
+      background-color: #eee;
+      margin-right: 10px;
+      border-radius: 4px;
+      object-fit: cover; /* Ajusta la imagen al contenedor */
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .product-price {
+      color: #4CAF50;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -105,18 +132,17 @@
     <button id="closeButton" title="Cerrar panel">×</button>
   </header>
   <div class="divider"></div>
-    <div class="content">
-      <div class="url-container">
-        <label for="urlBox">URL:</label>
-        <div id="urlBox" class="url-box"></div>
-      </div>
-      <!-- Nuevo contenedor para la lista de productos -->
-      <div class="product-list-container">
-        <label for="productList">Productos encontrados:</label>
-        <ul id="productList"></ul>
-      </div>
+  <div class="content">
+    <div class="url-container">
+      <label for="urlBox">URL:</label>
+      <div id="urlBox" class="url-box"></div>
     </div>
-
+    <!-- Contenedor para la lista de productos -->
+    <div class="product-list-container">
+      <label for="productList">Productos encontrados:</label>
+      <div id="productList"></div>
+    </div>
+  </div>
   <div class="divider"></div>
   <button id="buyButton">Comprar</button>
   <script src="panel.js"></script>
