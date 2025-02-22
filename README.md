@@ -1,6 +1,6 @@
 # Pickture
 Pickture is a web extension used to search similar clothes from images on the internet. The extension answers with clothes similars to the ones on the picture but from Inditex brands, allowing you to go directly to the product with just one click, or save it for later. Besides, you can also look for clothes just by typing what are you looking for.
-All this thanks tho the [Inditex Tech Open Source APIs]{https://developer.inditex.com}
+All this thanks tho the [Inditex Tech Open Source APIs]{https://developer.inditex.com}.
 
 ## Licenses
 - Icons (https://fonts.google.com/icons) -> Open Source
