@@ -5,6 +5,7 @@ chrome.contextMenus.create({
   contexts: ["image"]
 });
 
+
 // Listen for the click event on the contextual menu
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "Pickture") {
@@ -16,6 +17,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     });
   }
 });
+
 
 // Function to show the panel
 function showPanel(imgUrl) {

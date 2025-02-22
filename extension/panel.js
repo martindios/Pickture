@@ -91,7 +91,7 @@ export function createProductElement(product, isFavorite = false) {
 const isDarkMode = document.body.classList.contains('dark-mode');
 const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
 const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
-const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsapp.png';
+const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsappB.png';
 
 // Icono de Facebook
 const facebookIcon = document.createElement('a');

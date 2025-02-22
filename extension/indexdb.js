@@ -1,5 +1,6 @@
 export let db;
 
+
 // Creación o apertura de la base de datos
 export function openDatabase() {
     return new Promise((resolve, reject) => {
@@ -21,8 +22,9 @@ export function openDatabase() {
     });
 }
 
+
 // Función para agregar datos
-export function agregarDatos(data) {
+export function addData(data) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction('myFavourites', 'readwrite');
         const objectStore = transaction.objectStore('myFavourites');
@@ -45,8 +47,9 @@ export function agregarDatos(data) {
     });
 }
 
+
 // Función para obtener datos
-export function obtenerDatos(id) {
+export function obtainData(id) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction('myFavourites', 'readonly');
         const objectStore = transaction.objectStore('myFavourites');
@@ -67,8 +70,9 @@ export function obtenerDatos(id) {
     });
 }
 
+
 // Función para obtener todos los datos
-export function obtenerTodosLosDatos() {
+export function obtainAllData() {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction('myFavourites', 'readonly');
         const objectStore = transaction.objectStore('myFavourites');
@@ -87,7 +91,7 @@ export function obtenerTodosLosDatos() {
 
 
 // Función para eliminar datos
-export function eliminarDatos(id) {
+export function deleteData(id) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction('myFavourites', 'readwrite');
         const objectStore = transaction.objectStore('myFavourites');
