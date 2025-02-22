@@ -1,6 +1,5 @@
 import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
-import { openDatabase } from './indexdb.js';
 import { getQueryParam, callApiWithImage, callApiWithText } from './api.js';
 
 export let productsList = [];
@@ -147,8 +146,13 @@ function showInditexScreen() {
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar contenido previo
 
+  // Crear un contenedor para los inputs
   const container = document.createElement('div');
   container.className = 'inditex-form-container';
+
+  // Crear un contenedor para los inputs centrados
+  const formContainer = document.createElement('div');
+  formContainer.className = 'form-inputs';
 
   // Input para el término de búsqueda
   const queryLabel = document.createElement('label');
@@ -184,12 +188,14 @@ function showInditexScreen() {
     }
   });
 
-  container.appendChild(queryLabel);
-  container.appendChild(queryInput);
-  container.appendChild(brandLabel);
-  container.appendChild(brandInput);
-  container.appendChild(searchButton);
+  // Añadir los elementos al contenedor de inputs
+  formContainer.appendChild(queryLabel);
+  formContainer.appendChild(queryInput);
+  formContainer.appendChild(brandLabel);
+  formContainer.appendChild(brandInput);
+  formContainer.appendChild(searchButton);
 
+  container.appendChild(formContainer);
   productList.appendChild(container);
 }
 
