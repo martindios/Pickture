@@ -1,10 +1,9 @@
 import { addToFavorites, removeFromFavorites, favorites, updateFavorites } from './favorites.js';
 import { shareOnSocialMedia } from './social.js';
-import { openDatabase } from './indexdb.js';
 import { getQueryParam, callApiWithImage } from './api.js';
 
 export let productsList = [];
-
+let currentScreen = 'Web';
 
 // Función para crear un elemento de producto
 export function createProductElement(product, isFavorite = false) {
@@ -52,9 +51,11 @@ export function createProductElement(product, isFavorite = false) {
     if (isFavorite) {
       removeFromFavorites(product);
       starIcon.src = './logos/star.png';
+      rePrint();
     } else {
       addToFavorites(product);
       starIcon.src = './logos/doubleStar.png';
+      rePrint();
     }
   });
   buttonContainer.appendChild(starIcon);
@@ -106,12 +107,21 @@ export function createProductElement(product, isFavorite = false) {
   productInfo.appendChild(socialSharing);
   productDiv.appendChild(productInfo);
 
-
   return productDiv;
+}
+
+// Función para reprintear
+function rePrint(){
+  if (currentScreen === 'web') {
+    showWebScreen();
+  } else if (currentScreen === 'favorites') {
+    showFavoritesScreen();
+  }
 }
 
 // Función para mostrar la pantalla de Favoritos
 function showFavoritesScreen() {
+  currentScreen = 'favorites';
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos
 
@@ -130,9 +140,9 @@ function showFavoritesScreen() {
   });
 }
 
-
 // Función para mostrar la pantalla de Web
 function showWebScreen() {
+  currentScreen = 'web';
   const productList = document.getElementById('productList');
   productList.innerHTML = ""; // Limpieza de la lista antes de agregar elementos
 
@@ -148,6 +158,7 @@ function showWebScreen() {
 
 // Función para mostrar la pantalla de Inditex
 function showInditexScreen() {
+  currentScreen = 'inditex';
   const productList = document.getElementById('productList');
   productList.innerHTML = "<p>Contenido de la pantalla Inditex.</p>";
 }
