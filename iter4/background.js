@@ -5,8 +5,8 @@
 
 // Creación del menú contextual
 chrome.contextMenus.create({
-    id: "mostrarUrlImagen", // CAMBIAR: nombre de la app
-    title: "Mostrar URL de Imagen", // CAMBIAR: "Encontrar prenda de ropa"
+    id: "Pickture", 
+    title: "Encontrar prenda de ropa",
     contexts: ["image"] 
 });
 
