@@ -1,37 +1,38 @@
 body {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Open Sans', Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #f9f9f9;
-}
-
-header {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-}
-
-#logo {
-    width: 70px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  #logo {
+    width: 60px;
     height: auto;
-}
-
-#mainText {
-    font-family: 'Montserrat', sans-serif;
+  }
+  
+  #mainText {
+    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
     font-size: 24px;
-    color: #333;
+    color: #000;
     margin: 0;
-}
-
-#closeButton {
-    background: #ff4444;
+  }
+  
+  #closeButton {
+    background: #000;
     color: white;
     border: none;
     border-radius: 50%;
@@ -41,133 +42,120 @@ header {
     font-size: 16px;
     line-height: 24px;
     text-align: center;
-}
-
-#closeButton:hover {
-    background: #cc0000;
-}
-
-.content {
+  }
+  
+  #closeButton:hover {
+    background: #333;
+  }
+  
+  .content {
     flex: 1;
-    padding: 10px;
+    padding: 15px;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: #888 #f1f1f1;
-}
-
-.content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.content::-webkit-scrollbar-track {
+    scrollbar-color: #aaa #f1f1f1;
+  }
+  
+  .content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .content::-webkit-scrollbar-track {
     background: #f1f1f1;
-}
-
-.content::-webkit-scrollbar-thumb {
-    background: #888;
+  }
+  
+  .content::-webkit-scrollbar-thumb {
+    background: #aaa;
     border-radius: 4px;
-}
-
-.content::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.product {
+  }
+  
+  .product {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #fff;
-}
-
-.product-image {
+    background-color: #f9f9f9;
+  }
+  
+  .product-image {
     width: 80px;
     height: 80px;
-    background-color: #eee;
-    margin-right: 10px;
+    margin-right: 15px;
     border-radius: 4px;
     object-fit: cover;
-}
-
-.product-info {
+  }
+  
+  .product-info {
     flex: 1;
-}
-
-.product-name {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .product-name {
     font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.product-price {
-    color: #4CAF50;
-    font-size: 14px;
-}
-
-.star-icon {
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.social-sharing {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .buttons-container {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
-}
-
-.social-icon {
+  }
+  
+  .star-icon,
+  .buy-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+  }
+  
+  .social-sharing {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .social-icon {
     font-size: 16px;
-    color: #fff;
-    background-color: #333;
+    color: #000;
+    background-color: transparent;
     padding: 8px;
     border-radius: 50%;
     text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.social-icon.facebook {
-    background-color: darkgray;
-    padding-inline: 12px;
-}
-
-.social-icon.twitter {
-    background-color: darkgray;
-}
-
-.social-icon.instagram {
-    background-color: darkgray;
-    padding-inline: 9px;
-}
-
-.social-icon:hover {
-    opacity: 0.8;
-}
-
-.header ul {
+    transition: opacity 0.3s ease;
+    border: 1px solid #000;
+  }
+  
+  .social-icon:hover {
+    opacity: 0.6;
+  }
+  
+  .header ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: space-around;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-}
-
-.header ul li {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .header ul li {
     padding: 10px;
-}
-
-.header ul li a {
+  }
+  
+  .header ul li a {
     text-decoration: none;
-    color: #333;
+    color: #000;
     font-weight: bold;
     font-size: large;
 }
 
 .header ul li a:hover {
-    color: #4CAF50;
+    color: #666;
 }
 
 .product-link-button {
@@ -203,4 +191,3 @@ header {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
