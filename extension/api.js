@@ -37,12 +37,18 @@ export function getToken() {
 // Función que utiliza el token para llamar a la API con la imagen
 export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
   const productList = document.getElementById('productList');
-  
+  const productListLabel = document.querySelector('.productList'); // Buscar el elemento "Productos encontrados"
+
+  // Ocultar el texto mientras se está cargando
+  if (productListLabel) {
+    productListLabel.style.display = "none";
+  }
+
   // Mostrar el loader mientras se espera la respuesta de la API
   productList.innerHTML = "<div class='loader'></div>";
 
   getToken()
-    .then(token => {
+    .then(token => { 
       const getUrl = `https://api.inditex.com/pubvsearch/products?image=${encodeURIComponent(imageUrl)}&page=1&perPage=5`;
       return fetch(getUrl, {
         method: "GET",
@@ -73,6 +79,11 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
       // Limpiar el spinner antes de mostrar los resultados
       productList.innerHTML = "";
 
+      // Mostrar el texto de "Productos encontrados" solo si encontramos productos
+      if (productListLabel) {
+        productListLabel.style.display = "block";
+      }
+
       if (uniqueProducts && uniqueProducts.length > 0) {
         uniqueProducts.forEach(product => {
           const isFavorite = favorites.some(fav => fav.id === product.id);
@@ -95,3 +106,68 @@ export function callApiWithImage(imageUrl, attempt = 1, maxAttempts = 2) {
       console.error('Error al abrir la base de datos:', error);
   });
 }
+
+
+export function callApiWithText(queryText, brand) {
+    const productList = document.getElementById('productList');
+    
+    // Mostrar el loader mientras se espera la respuesta de la API
+    productList.innerHTML = "<div class='loader'></div>";
+  
+    getToken()
+      .then(token => {
+        // Construir la URL con el query de texto y, si se proporciona, la marca
+        let url = `https://api.inditex.com/searchpmpa/products?query=${encodeURIComponent(queryText)}`;
+        if (brand) {
+          url += `&brand=${encodeURIComponent(brand)}`;
+        }
+        console.log('URL:', url);
+        return fetch(url, {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+          }
+        });
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error HTTP en la petición GET: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(json => {
+        // Suponiendo que la respuesta devuelva un arreglo de productos o un objeto con la propiedad "products"
+        const products = Array.isArray(json) ? json : json.products;
+        const uniqueProducts = products.filter((product, index, self) =>
+          index === self.findIndex(p => p.id === product.id && p.name === product.name)
+        );
+  
+        // Limpiar el spinner antes de mostrar los resultados
+        productList.innerHTML = "";
+  
+        if (uniqueProducts && uniqueProducts.length > 0) {
+          uniqueProducts.forEach(product => {
+            const isFavorite = favorites.some(fav => fav.id === product.id);
+            productsList.push(product);
+            const productElement = createProductElement(product, isFavorite);
+            productList.appendChild(productElement);
+          });
+        } else {
+          productList.innerHTML = "<p>No se encontraron productos.</p>";
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        productList.innerHTML = `<p>Error: ${error.message}</p>`;
+      });
+  
+    openDatabase()
+      .then(() => {
+        console.log('Base de datos abierta con éxito');
+      })
+      .catch(error => {
+        console.error('Error al abrir la base de datos:', error);
+      });
+  }
+  
