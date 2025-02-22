@@ -52,7 +52,7 @@ function showFavoritesScreen() {
         if(url){
           productImage.src = url;
         } else {
-          productImage.src = "logo_no_text.png"; // Imagen de ejemplo si no hay URL
+          productImage.src = "logo_no_text_color.png"; // Imagen de ejemplo si no hay URL
         }
       });
       productImage.alt = product.name;
