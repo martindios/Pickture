@@ -1,7 +1,7 @@
-// Crear el menú contextual
+// Crear el menú contextual (click derecho)
 chrome.contextMenus.create({
   id: "mostrarUrlImagen",
-  title: "Mostrar URL de Imagen",
+  title: "SNAPEX: pulsa para descubrir la prenda",
   contexts: ["image"]
 });
 
@@ -27,7 +27,7 @@ function mostrarPanel(imgUrl) {
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
   iframe.style.right = '0';
-  iframe.style.width = '20%';
+  iframe.style.width = '25%';
   iframe.style.height = '100vh';
   iframe.style.border = 'none';
   iframe.style.zIndex = '100000';
