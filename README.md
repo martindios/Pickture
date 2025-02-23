@@ -34,7 +34,7 @@ Even though the extension is based in a very simple interface, here are some tip
 - Click the option, and a menu will appear on the right side of the page.
 - Several products will appear after some time, when that happens you will be able to save the product on the Favorite menu (star icon), go to the product page (cart icon) or share it on social media (social media icons).
 - Try out the other menus, including the text search.
-- In the rigth down corner it is the dark mode button, for a calmer viewing experience. 
+- In the right down corner it is the dark mode button, for a calmer viewing experience. 
 
 ## Contributions
 You can find all the necessary information in the CONTRIBUTING.md document. Please always follow the CODE_OF_CONDUCT.
