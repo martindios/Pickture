@@ -1,4 +1,5 @@
 # Pickture 
+#### HackUDC 2024
 Pickture is a chrome web extension you can use to find those beautiful clothes you come across around the internet. With just one click on the image, several options similar to those clothes on the picture will appear in front of you to save or buy.
 
 ![miniDemo](gif.gif)
