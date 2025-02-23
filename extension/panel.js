@@ -321,21 +321,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('dark-mode')) {
       // Si se activa el modo oscuro, cambiamos el logo a lightMode para poder volver a cambiar
       darkModeImg.src = './logos/lightMode.png';
-    } else {
-      // Si se desactiva el modo oscuro, se muestra el logo de darkMode
-      darkModeImg.src = './logos/darkMode.png';
-    }
-
-    if (document.body.classList.contains('dark-mode')) {
-      darkModeImg.src = './logos/lightMode.png';
-    } else {
-      darkModeImg.src = './logos/darkMode.png';
-    }
-
-    if (document.body.classList.contains('dark-mode')) {
-      darkModeImg.src = './logos/lightMode.png';
       logo.src = './logos/logo_no_text_white.png';
     } else {
+      // Si se desactiva el modo oscuro, se muestra el logo de darkMode
       darkModeImg.src = './logos/darkMode.png';
       logo.src = './logos/logo_no_text_black.png';
     }
