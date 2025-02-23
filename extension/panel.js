@@ -18,7 +18,29 @@ export function createProductElement(product, isFavorite = false) {
   // Image container
   const productImage = document.createElement('img');
   productImage.className = 'product-image';
-  productImage.src = "./logos/logo_zara.png"; // Change
+
+  // Check the product name to show the correct image
+  const productNameLower = product.name ? product.name.toLowerCase() : "";
+  const darkMode = document.body.classList.contains('dark-mode');
+  if (productNameLower.includes("hoodie")) {
+    productImage.src = darkMode ? "./logos/clothes/hoodieW.png" : "./logos/clothes/hoodieB.png";
+  } else if (productNameLower.includes("jeans")) {
+    productImage.src = darkMode ? "./logos/clothes/jeansW.png" : "./logos/clothes/jeansB.png";
+  } else if (productNameLower.includes("jewlery")) {
+    productImage.src = darkMode ? "./logos/clothes/ringW.png" : "./logos/clothes/ringB.png";
+  } else if (productNameLower.includes("skirt")) {
+    productImage.src = darkMode ? "./logos/clothes/skirtW.png" : "./logos/clothes/skirtB.png";
+  } else if (productNameLower.includes("shirt")) {
+    productImage.src = darkMode ? "./logos/clothes/tshirtW.png" : "./logos/clothes/tshirtB.png";
+  } else if (productNameLower.includes("shorts")) {
+    productImage.src = darkMode ? "./logos/clothes/shortsW.png" : "./logos/clothes/shortsB.png";
+  } else if (productNameLower.includes("jacket") || productNameLower.includes("coat") || productNameLower.includes("blazer")) {
+    productImage.src = darkMode ? "./logos/clothes/jacketW.png" : "./logos/clothes/jacketB.png";
+  } else {
+    // Default value
+    productImage.src = darkMode ? "./logos/logo_no_text_white.png" : "./logos/logo_no_text_black.png";
+  }
+
   productImage.alt = product.name;
   productDiv.appendChild(productImage);
 
@@ -256,7 +278,20 @@ function showTextScreen() {
 
 // Listens to events
 document.addEventListener('DOMContentLoaded', () => {
+  // Constants
   const imgUrl = getQueryParam('img');
+  const logoLink = document.getElementById('logo').parentElement;
+  const mainTextLink = document.getElementById('mainText').parentElement;
+
+  // Function to open the link in a new tab
+  function openInNewTab(e) {
+    e.preventDefault();
+    window.open(e.currentTarget.getAttribute('href'), '_blank');
+  }
+
+  logoLink.addEventListener('click', openInNewTab);
+  mainTextLink.addEventListener('click', openInNewTab);
+
   
   // Calls the API with the param
   if (imgUrl) {

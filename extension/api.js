@@ -4,6 +4,7 @@ import { favoritesList } from './favorites.js';
 import { productsList, createProductElement } from './panel.js';
 import { OAUTH_USERNAME, OAUTH_PASSWORD, OAUTH_TOKEN_URL } from './config.js';
 
+// Constants
 const username = OAUTH_USERNAME;
 const password = OAUTH_PASSWORD;
 const tokenUrl = OAUTH_TOKEN_URL;
@@ -18,8 +19,6 @@ export function getQueryParam(param) {
 
 // Gets the token from the API
 export function getToken() {
-
-
   const tokenData = new URLSearchParams();
   tokenData.append("grant_type", "client_credentials");
   tokenData.append("scope", "technology.catalog.read");
