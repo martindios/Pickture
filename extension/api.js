@@ -2,6 +2,12 @@
 import { openDatabase } from './indexdb.js';
 import { favoritesList } from './favorites.js';
 import { productsList, createProductElement } from './panel.js';
+import { OAUTH_USERNAME, OAUTH_PASSWORD, OAUTH_TOKEN_URL } from './config.js';
+
+// Constants
+const username = OAUTH_USERNAME;
+const password = OAUTH_PASSWORD;
+const tokenUrl = OAUTH_TOKEN_URL;
 
 
 // Retrieves the value of a specified query parameter from the current page's URL
@@ -13,10 +19,6 @@ export function getQueryParam(param) {
 
 // Gets the token from the API
 export function getToken() {
-  const username = "oauth-mkplace-oauthucjojyojqokwhavrwfpropro";
-  const password = "A3@X[K}2i7@I~@nF";
-  const tokenUrl = "https://auth.inditex.com:443/openam/oauth2/itxid/itxidmp/access_token";
-
   const tokenData = new URLSearchParams();
   tokenData.append("grant_type", "client_credentials");
   tokenData.append("scope", "technology.catalog.read");
