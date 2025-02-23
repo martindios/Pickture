@@ -1,6 +1,8 @@
 # Pickture 
 Pickture is a chrome web extension you can use to find those beautiful clothes you come across around the internet. With just one click on the image, several options similar to those clothes on the picture will appear in front of you to save or buy.
 
+![miniDemo](gif.gif)
+
 ## Features
 - Provides several Inditex substitution options for an outfit with just clicking over the image.
 - There is also the option of introducing the desired item of clothing by typing it and even selecting the brand.
@@ -13,6 +15,7 @@ Pickture is a chrome web extension you can use to find those beautiful clothes y
 
 ## How does it work?
 Our extension takes the URL of the clicked image and sends it to the [Visual Search Inditex Tech API](https://developer.inditex.com/apimktplc/web/products/pubapimkt/protocols/REST/apis/visual-search/overview), an Open Source API that receives the image and answers with similar products from Inditex brands.
+
 Besides, we use [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) to provide a persistent "Favorites Menu" to save products in between sessions. 
 
 Moreover, the search can also be done by typing the desired product and even specifying the Inditex  brand thanks to the [Product Search Inditex Tech API](https://developer.inditex.com/apimktplc/web/products/pubapimkt/protocols/REST/apis/product-search/overview), so that no matter the situation, you will always find the product you want.
