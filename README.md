@@ -12,7 +12,7 @@ Pickture is a chrome web extension you can use to find those beautiful clothes y
 - Allows to access to the product page with just one click.
 - Makes it easier to share a product on social media by just clicking a button.
 - Counts with both day and night mode.
-- We have a landing page with some information you can reach out at https://web-hackudc-1.vercel.app/#technology.
+- We have a landing page with some information you can reach out at https://web-hackudc-1.vercel.app/.
 
 ## How does it work?
 Our extension takes the URL of the clicked image and sends it to the [Visual Search Inditex Tech API](https://developer.inditex.com/apimktplc/web/products/pubapimkt/protocols/REST/apis/visual-search/overview), an Open Source API that receives the image and answers with similar products from Inditex brands.
