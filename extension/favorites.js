@@ -18,7 +18,7 @@ export function addToFavorites(product) {
     if (productNameElement && productNameElement.textContent === product.name) {
       const starIcon = element.querySelector('.star-icon');
       if (starIcon) {
-        starIcon.src = './logos/doubleStar.png';
+        starIcon.src = './imgs/doubleStar.png';
       }
     }
   });

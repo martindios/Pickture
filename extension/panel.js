@@ -32,13 +32,21 @@ export function createProductElement(product, isFavorite = false) {
     productImage.src = darkMode ? "./imgs/clothes/skirtW.png" : "./imgs/clothes/skirtB.png";
   } else if (productNameLower.includes("shirt")) {
     productImage.src = darkMode ? "./imgs/clothes/tshirtW.png" : "./imgs/clothes/tshirtB.png";
+    productImage.style.marginTop = "20px";
+  } else if (productNameLower.includes("sunglasses") || productNameLower.includes("glasses")) {
+    productImage.src = darkMode ? "./imgs/clothes/sunglassesW.png" : "./imgs/clothes/sunglassesB.png";
+    productImage.style.width = "100px";
+    productImage.style.height = "auto";
+    productImage.style.marginTop = "50px";
   } else if (productNameLower.includes("shorts")) {
     productImage.src = darkMode ? "./imgs/clothes/shortsW.png" : "./imgs/clothes/shortsB.png";
   } else if (productNameLower.includes("jacket") || productNameLower.includes("coat") || productNameLower.includes("blazer")) {
     productImage.src = darkMode ? "./imgs/clothes/jacketW.png" : "./imgs/clothes/jacketB.png";
+    productImage.style.marginTop = "20px";
   } else {
     // Default value
     productImage.src = darkMode ? "./imgs/logo_no_text_white.png" : "./imgs/logo_no_text_black.png";
+    productImage.style.marginTop = "20px";
   }
 
   productImage.alt = product.name;
