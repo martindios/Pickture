@@ -23,22 +23,22 @@ export function createProductElement(product, isFavorite = false) {
   const productNameLower = product.name ? product.name.toLowerCase() : "";
   const darkMode = document.body.classList.contains('dark-mode');
   if (productNameLower.includes("hoodie")) {
-    productImage.src = darkMode ? "./logos/clothes/hoodieW.png" : "./logos/clothes/hoodieB.png";
+    productImage.src = darkMode ? "./imgs/clothes/hoodieW.png" : "./imgs/clothes/hoodieB.png";
   } else if (productNameLower.includes("jeans")) {
-    productImage.src = darkMode ? "./logos/clothes/jeansW.png" : "./logos/clothes/jeansB.png";
+    productImage.src = darkMode ? "./imgs/clothes/jeansW.png" : "./imgs/clothes/jeansB.png";
   } else if (productNameLower.includes("jewlery")) {
-    productImage.src = darkMode ? "./logos/clothes/ringW.png" : "./logos/clothes/ringB.png";
+    productImage.src = darkMode ? "./imgs/clothes/ringW.png" : "./imgs/clothes/ringB.png";
   } else if (productNameLower.includes("skirt")) {
-    productImage.src = darkMode ? "./logos/clothes/skirtW.png" : "./logos/clothes/skirtB.png";
+    productImage.src = darkMode ? "./imgs/clothes/skirtW.png" : "./imgs/clothes/skirtB.png";
   } else if (productNameLower.includes("shirt")) {
-    productImage.src = darkMode ? "./logos/clothes/tshirtW.png" : "./logos/clothes/tshirtB.png";
+    productImage.src = darkMode ? "./imgs/clothes/tshirtW.png" : "./imgs/clothes/tshirtB.png";
   } else if (productNameLower.includes("shorts")) {
-    productImage.src = darkMode ? "./logos/clothes/shortsW.png" : "./logos/clothes/shortsB.png";
+    productImage.src = darkMode ? "./imgs/clothes/shortsW.png" : "./imgs/clothes/shortsB.png";
   } else if (productNameLower.includes("jacket") || productNameLower.includes("coat") || productNameLower.includes("blazer")) {
-    productImage.src = darkMode ? "./logos/clothes/jacketW.png" : "./logos/clothes/jacketB.png";
+    productImage.src = darkMode ? "./imgs/clothes/jacketW.png" : "./imgs/clothes/jacketB.png";
   } else {
     // Default value
-    productImage.src = darkMode ? "./logos/logo_no_text_white.png" : "./logos/logo_no_text_black.png";
+    productImage.src = darkMode ? "./imgs/logo_no_text_white.png" : "./imgs/logo_no_text_black.png";
   }
 
   productImage.alt = product.name;
@@ -77,22 +77,22 @@ export function createProductElement(product, isFavorite = false) {
   const starIcon = document.createElement('img');
   starIcon.className = 'star-icon';
   starIcon.src = isFavorite 
-    ? (document.body.classList.contains('dark-mode') ? './logos/doubleStarW.png' : './logos/doubleStar.png')
-    : (document.body.classList.contains('dark-mode') ? './logos/starW.png' : './logos/star.png');
+    ? (document.body.classList.contains('dark-mode') ? './imgs/doubleStarW.png' : './imgs/doubleStar.png')
+    : (document.body.classList.contains('dark-mode') ? './imgs/starW.png' : './imgs/star.png');
   starIcon.style.cursor = 'pointer';
   
   starIcon.addEventListener('click', () => {
     if (isFavorite) {
       removeFromFavorites(product);
       starIcon.src = document.body.classList.contains('dark-mode')
-        ? './logos/starW.png'
-        : './logos/star.png';
+        ? './imgs/starW.png'
+        : './imgs/star.png';
       rePrint();
     } else {
       addToFavorites(product);
       starIcon.src = document.body.classList.contains('dark-mode')
-        ? './logos/doubleStarW.png'
-        : './logos/doubleStar.png';
+        ? './imgs/doubleStarW.png'
+        : './imgs/doubleStar.png';
       rePrint();
     }
   });
@@ -101,7 +101,7 @@ export function createProductElement(product, isFavorite = false) {
   // Buy icon
   const buyIcon = document.createElement('img');
   buyIcon.className = 'buy-icon';
-  buyIcon.src = document.body.classList.contains('dark-mode') ? './logos/cartW.png' : './logos/cart.png';
+  buyIcon.src = document.body.classList.contains('dark-mode') ? './imgs/cartW.png' : './imgs/cart.png';
   buyIcon.style.cursor = 'pointer';
   buyIcon.addEventListener('click', () => {
     window.open(product.link, '_blank');
@@ -116,9 +116,9 @@ export function createProductElement(product, isFavorite = false) {
 
   // Check if dark mode is active and change the icons
   const isDarkMode = document.body.classList.contains('dark-mode');
-  const facebookSrc = isDarkMode ? './logos/facebookW.png' : './logos/facebook.png';
-  const twitterSrc = isDarkMode ? './logos/twitterW.png' : './logos/twitter.png';
-  const whatsappSrc = isDarkMode ? './logos/whatsappW.png' : './logos/whatsappB.png';
+  const facebookSrc = isDarkMode ? './imgs/facebookW.png' : './imgs/facebook.png';
+  const twitterSrc = isDarkMode ? './imgs/twitterW.png' : './imgs/twitter.png';
+  const whatsappSrc = isDarkMode ? './imgs/whatsappW.png' : './imgs/whatsappB.png';
 
   // Facebook icon
   const facebookIcon = document.createElement('a');
@@ -354,24 +354,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.toggle('dark-mode');
     if (document.body.classList.contains('dark-mode')) {
       // Si se activa el modo oscuro, cambiamos el logo a lightMode para poder volver a cambiar
-      darkModeImg.src = './logos/lightMode.png';
+      darkModeImg.src = './imgs/lightMode.png';
     } else {
       // Si se desactiva el modo oscuro, se muestra el logo de darkMode
-      darkModeImg.src = './logos/darkMode.png';
+      darkModeImg.src = './imgs/darkMode.png';
     }
 
     if (document.body.classList.contains('dark-mode')) {
-      darkModeImg.src = './logos/lightMode.png';
+      darkModeImg.src = './imgs/lightMode.png';
     } else {
-      darkModeImg.src = './logos/darkMode.png';
+      darkModeImg.src = './imgs/darkMode.png';
     }
 
     if (document.body.classList.contains('dark-mode')) {
-      darkModeImg.src = './logos/lightMode.png';
-      logo.src = './logos/logo_no_text_white.png';
+      darkModeImg.src = './imgs/lightMode.png';
+      logo.src = './imgs/logo_no_text_white.png';
     } else {
-      darkModeImg.src = './logos/darkMode.png';
-      logo.src = './logos/logo_no_text_black.png';
+      darkModeImg.src = './imgs/darkMode.png';
+      logo.src = './imgs/logo_no_text_black.png';
     }
 
     // Renders the products list to update the view
